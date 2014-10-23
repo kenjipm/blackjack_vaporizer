@@ -1,0 +1,104 @@
+.label
+{
+    float: left;
+    width: 120px;
+}
+
+#tabel_menu
+{
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 180px;
+}
+.table_header, .table_row, td
+{
+    border: 1px solid #000;
+}
+
+.table_header
+{
+    font-weight: bold;
+}
+
+.table_summary td
+{
+    border: none;
+    font-size: 16px;
+}
+
+.table_summary .summary_label
+{
+    text-align: right;
+}
+
+/*
+.payment_nama
+{
+    width: 150px;
+}
+
+.payment_jml
+{
+    width: 30px;
+}
+
+.payment_keterangan
+{
+    width: 120px;
+}
+
+.payment_initial_price
+{
+    width: 80px;
+}
+
+.payment_discount
+{
+    width: 30px;
+}
+
+.payment_price
+{
+    width: 80px;
+}*/
+
+
+[id|=payment_nama]
+{
+    width: 145px;
+}
+
+[id|=payment_jml]
+{
+    width: 25px;
+}
+
+[id|=payment_keterangan]
+{
+    width: 125px;
+}
+
+[id|=payment_initial_price]
+{
+    width: 75px;
+}
+
+[id|=payment_discount]
+{
+    width: 25px;
+}
+
+[id|=payment_price]
+{
+    width: 75px;
+}
+
+#payment_subtotal, #payment_total_discount, #payment_total, #payment_pay, #payment_change
+{
+    width: 130px;
+}
+
+#discount
+{
+    width: 30px;
+}

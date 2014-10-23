@@ -1,0 +1,19 @@
+td.menu_nama
+{
+   min-width: 240px; 
+}
+
+td.stok input
+{
+   max-width: 80px; 
+}
+
+td.keterangan input
+{
+	min-width: 360px; 
+}
+
+input.changed
+{
+	background-color: #FDD;
+}

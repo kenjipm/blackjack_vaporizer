@@ -1,0 +1,100 @@
+html, body
+{
+	width: 7.2cm;
+}
+
+body
+{
+	font-family: arial;
+	font-size: 0.24cm;
+	padding: 0;
+	margin: 0;
+	text-align: left;
+}
+
+table
+{
+	font-family: arial;
+	font-size: 0.24cm;
+	width: 7.1cm;
+}
+
+#logo
+{
+	width:1.2cm;
+	height:1.2cm;
+	float:left;
+	margin-right: 0.2cm;
+}
+
+#company_name
+{
+	font-family: batang;
+	font-size: 0.3cm;
+	font-weight: bolder;
+}
+
+#header_nota
+{
+
+}
+
+#header_except_logo
+{
+	padding-top: 0.2cm;
+}
+
+#start_nota
+{
+
+}
+
+#footer_nota
+{
+	text-align: center;
+}
+
+.price
+{
+	text-align: right;
+}
+
+.summary_label
+{
+	text-align: right;
+}
+
+#payment_keterangan
+{
+	font-size: 0.2cm;
+	font-style: italic;
+}
+
+.jumlah
+{
+	width: 1cm;
+	padding-left: 0.2cm;
+	padding-right: 0.2cm;
+}
+
+.barang
+{
+	width: 2cm;
+	padding-left: 0.2cm;
+	padding-right: 0.2cm;
+}
+
+.harga
+{
+	width: 2cm;
+	padding-left: 0.2cm;
+	padding-right: 0.2cm;
+}
+
+.keterangan
+{
+	width: 2cm;
+	padding-left: 0.2cm;
+	padding-right: 0.2cm;
+	text-align: right;
+}

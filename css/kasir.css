@@ -1,0 +1,46 @@
+body, html, #container
+{
+	height:100%;
+	width:100%;
+}
+
+h2
+{
+	float: left;
+	margin: 0; padding: 0;
+}
+
+#body
+{
+	height: 100%;
+	width:100%;
+}
+
+iframe
+{
+    height: 90%;
+}
+
+/* ================ Order List ================ */
+#order_list
+{
+    float: left;
+    width: 22%;
+    border: 1px solid #000;
+}
+
+/* ================ Tambah Menu ================ */
+#tambah_menu
+{
+    float: left;
+    width: 30%;
+    border: 1px solid #000;
+}
+
+/* ================ Payment ================ */
+#payment
+{
+    float: left;
+    width: 45%;
+    border: 1px solid #000;
+}

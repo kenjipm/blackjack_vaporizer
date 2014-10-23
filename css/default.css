@@ -1,0 +1,141 @@
+body
+{
+	font: small/1.5em Arial, Helvetica, serif;
+	background-color: black;
+	color: white;
+}
+
+#header_link
+{
+    text-align: right;
+	width: 97%;
+	right: 30px;
+    height: 30px;
+}
+
+.success
+{
+    color: green;
+}
+
+.failure
+{
+    color: red;
+}
+
+a.button
+{
+    background-color: #4CC417;
+	color: white;
+	border: outset #4CC417;
+	border-radius: 3px;
+	padding: 5px;
+	min-width: 100px;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a.button:hover
+{
+    background-color: #4CEE3B;
+	border: outset #4CEE3B;
+}
+
+input[type="button"], input[type="submit"]
+{
+    background-color: #482400;
+	color: white;
+	border: outset #482400;
+	border-radius: 3px;
+}
+
+input[type="button"]:disabled, input[type="submit"]:disabled
+{
+    background-color: #DDDDDD;
+	color: white;
+	border: solid #DDDDDD;
+	border-radius: 3px;
+}
+
+input[type="button"]:disabled:hover, input[type="submit"]:disabled:hover
+{
+    background-color: #DDDDDD;
+	border: solid #DDDDDD;
+}
+
+input[type="button"]:hover, input[type="submit"]:hover
+{
+    background-color: #904800;
+	border: outset #904800;
+}
+
+input[type="text"], input[type="password"]
+{
+    
+}
+
+input[readonly="readonly"]
+{
+    background-color: #EEE;
+}
+
+input[type="button"].semi_disabled, input[type="submit"].semi_disabled
+{
+    background-color: #FFD86C;
+	color: white;
+	border: solid #FFD86C;
+	border-radius: 3px;
+}
+
+input[type="button"].semi_disabled:hover, input[type="submit"].semi_disabled:hover
+{
+    background-color: #FFA050;
+	border: solid #FFA050;
+}
+
+a.button_image
+{
+	height: 30px;
+	margin-top: -15px;
+	top: 50%;
+	
+	right: 4px;
+	width: 30px;
+	position: absolute;
+}
+
+a.button_refresh
+{
+	background: url('../img/refresh.png') no-repeat center;
+	background-size: 30px 30px;
+}
+
+a.button_refresh:hover
+{
+	background: url('../img/refresh-hover.png') no-repeat center;
+	background-size: 30px 30px;
+}
+
+a.button_refresh:active
+{
+	background: url('../img/refresh-active.png') no-repeat center;
+	background-size: 30px 30px;
+}
+
+a.button_reset
+{
+	background: url('../img/reset.png') no-repeat center;
+	background-size: 30px 30px;
+}
+
+a.button_reset:hover
+{
+	background: url('../img/reset-hover.png') no-repeat center;
+	background-size: 30px 30px;
+}
+
+a.button_reset:active
+{
+	background: url('../img/reset-active.png') no-repeat center;
+	background-size: 30px 30px;
+}

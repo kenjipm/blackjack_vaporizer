@@ -1,0 +1,29 @@
+td.menu_nama input
+{
+   min-width: 240px; 
+}
+
+td.menu_jml input
+{
+   max-width: 30px; 
+}
+
+td.menu_discount input
+{
+   max-width: 30px;
+}
+
+td.menu_discount
+{
+   min-width: 60px;
+}
+
+td.input_harga input
+{
+   max-width: 120px; 
+}
+
+input.changed
+{
+	background-color: #FDD;
+}

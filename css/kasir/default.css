@@ -1,0 +1,43 @@
+h2
+{
+    margin: 0;
+    float: left;
+}
+
+body
+{
+	background-color: #FFFFC2;
+	color: black;
+
+}
+
+#header
+{
+    left:0;
+    top:0;
+    width: 100%;
+    border-bottom: solid 2px black;
+    position: fixed;
+	background-color: #482400;
+	color: white;
+    z-index: 1;
+}
+
+#header_content
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+#header_button_right
+{
+    float: right;
+}
+
+#body
+{
+    top: 50px;
+    position: absolute;
+	width: 96%;
+}

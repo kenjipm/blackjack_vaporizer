@@ -1,0 +1,74 @@
+.label
+{
+    float: left;
+    width: 120px;
+}
+
+.order_header
+{
+	font-weight: bold;
+}
+
+.button_left
+{
+    float: left;
+}
+
+.button_mid
+{
+    position: absolute;
+    left: 125px;
+}
+
+.button_right
+{
+    float: right;
+}
+
+#tabel_menu
+{
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 180px;
+}
+#tabel_menu, td
+{
+    border: 1px solid #000;
+}
+
+.table_header
+{
+    font-weight: bold;
+}
+
+/*
+.menu_nama
+{
+    width: 175px;
+}
+
+.menu_jml
+{
+    width: 25px;
+}
+
+.menu_keterangan
+{
+    width: 100px;
+}
+*/
+
+[id|=menu_nama]
+{
+    width: 155px;
+}
+
+[id|=menu_jml]
+{
+    width: 25px;
+}
+
+[id|=menu_keterangan]
+{
+    width: 135px;
+}

@@ -1,0 +1,48 @@
+<NotepadPlus>
+    <Session activeView="0">
+        <mainView activeIndex="25">
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1" startPos="732" endPos="732" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\header_view.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1672" startPos="1405" endPos="1405" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\controllers\login.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1672" startPos="21" endPos="0" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\login_view.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="672" startPos="3" endPos="3" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\kasir\index_view.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1920" startPos="374" endPos="374" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\controllers\order_menu.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1920" startPos="188" endPos="188" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\controllers\paket.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1922" startPos="453" endPos="464" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\models\user_model.php" />
+            <File firstVisibleLine="45" xOffset="0" scrollWidth="1672" startPos="1375" endPos="1375" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\models\order_model.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="11968" startPos="838" endPos="838" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\models\menu_model.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="11968" startPos="677" endPos="677" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\models\order_menu_model.php" />
+            <File firstVisibleLine="71" xOffset="0" scrollWidth="576" startPos="1146" endPos="1146" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\EIS\application\models\berita_model.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="11968" startPos="385" endPos="385" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\controllers\menu.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="11968" startPos="383" endPos="383" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\controllers\order.php" />
+            <File firstVisibleLine="65" xOffset="0" scrollWidth="1608" startPos="8145" endPos="8145" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\controllers\kasir.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1672" startPos="84" endPos="97" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\libraries\Text_renderer.php" />
+            <File firstVisibleLine="35" xOffset="0" scrollWidth="11968" startPos="2800" endPos="2804" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\kasir\order_list_view.php" />
+            <File firstVisibleLine="25" xOffset="0" scrollWidth="1672" startPos="1755" endPos="1755" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\kasir\menu_tambah_view.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1672" startPos="213" endPos="213" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\kasir\order_payment_view.php" />
+            <File firstVisibleLine="67" xOffset="0" scrollWidth="1608" startPos="4672" endPos="4614" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\kasir\print_nota_view.php" />
+            <File firstVisibleLine="30" xOffset="0" scrollWidth="1920" startPos="1113" endPos="1127" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\models\variabel_model.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1672" startPos="951" endPos="951" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\kasir\header_view.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1672" startPos="0" endPos="0" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\kasir\footer_view.php" />
+            <File firstVisibleLine="53" xOffset="0" scrollWidth="1608" startPos="2838" endPos="2849" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\controllers\laporan.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1608" startPos="79" endPos="79" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\laporan\header_view.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="30768" startPos="0" endPos="0" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\laporan\footer_view.php" />
+            <File firstVisibleLine="153" xOffset="0" scrollWidth="888" startPos="6132" endPos="6132" selMode="0" lang="PHP" encoding="-1" filename="C:\xampp\htdocs\blackjack\application\views\laporan\index_view.php" />
+        </mainView>
+        <subView activeIndex="7">
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1" startPos="46" endPos="46" selMode="0" lang="CSS" encoding="-1" filename="C:\xampp\htdocs\blackjack\css\kasir\tambah_menu.css" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1026" startPos="1111" endPos="1111" selMode="0" lang="CSS" encoding="-1" filename="C:\xampp\htdocs\blackjack\css\kasir\payment.css" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1026" startPos="255" endPos="211" selMode="0" lang="CSS" encoding="-1" filename="C:\xampp\htdocs\blackjack\css\kasir\order_list.css" />
+            <File firstVisibleLine="4" xOffset="0" scrollWidth="1026" startPos="480" endPos="480" selMode="0" lang="CSS" encoding="-1" filename="C:\xampp\htdocs\blackjack\css\kasir\default.css" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="624" startPos="223" endPos="44" selMode="0" lang="CSS" encoding="-1" filename="C:\xampp\htdocs\blackjack\css\login.css" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1040" startPos="167" endPos="167" selMode="0" lang="CSS" encoding="-1" filename="C:\xampp\htdocs\blackjack\css\kasir.css" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="634" startPos="139" endPos="139" selMode="0" lang="CSS" encoding="-1" filename="C:\xampp\htdocs\blackjack\css\default.css" />
+            <File firstVisibleLine="71" xOffset="0" scrollWidth="240" startPos="976" endPos="976" selMode="0" lang="CSS" encoding="-1" filename="C:\xampp\htdocs\blackjack\css\laporan\default.css" />
+            <File firstVisibleLine="25" xOffset="0" scrollWidth="200" startPos="579" endPos="579" selMode="0" lang="CSS" encoding="-1" filename="C:\xampp\htdocs\blackjack\css\kasir\print_nota.css" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="624" startPos="485" endPos="485" selMode="0" lang="Javascript" encoding="-1" filename="C:\xampp\htdocs\blackjack\js\kasir\order_list.js" />
+            <File firstVisibleLine="97" xOffset="0" scrollWidth="664" startPos="3572" endPos="3590" selMode="0" lang="Javascript" encoding="-1" filename="C:\xampp\htdocs\blackjack\js\kasir\payment.js" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="794" startPos="0" endPos="0" selMode="0" lang="Javascript" encoding="-1" filename="C:\xampp\htdocs\blackjack\js\kasir.js" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1040" startPos="140" endPos="140" selMode="0" lang="Javascript" encoding="-1" filename="C:\xampp\htdocs\blackjack\js\laporan.js" />
+            <File firstVisibleLine="59" xOffset="0" scrollWidth="1040" startPos="2238" endPos="2238" selMode="0" lang="Javascript" encoding="-1" filename="C:\xampp\htdocs\blackjack\js\kasir\tambah_menu.js" />
+        </subView>
+    </Session>
+</NotepadPlus>

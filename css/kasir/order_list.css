@@ -1,0 +1,27 @@
+
+.keterangan
+{
+    font-size: 11px;
+    font-style: italic;
+}
+
+.button_left
+{
+    float: left;
+}
+
+.button_mid
+{
+    position: absolute;
+    left: 75px;
+}
+
+.button_right
+{
+    float: right;
+}
+
+.order_header
+{
+	font-weight: bold;
+}

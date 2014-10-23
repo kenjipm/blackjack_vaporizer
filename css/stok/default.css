@@ -1,0 +1,46 @@
+table
+{
+    border-collapse: collapse;
+	border: 1px solid black;
+	color: black;
+}
+
+td
+{
+    border: 1px solid black;
+	min-width: 25px;
+	background-color: white;
+}
+
+td.table_header
+{
+	background-color: #32CD32;
+	font-weight: bold;
+	text-align: center;
+}
+
+td.table_header-2, td.table_footer
+{
+	background-color: #90EE90;
+	font-weight: bold;
+	text-align: center;
+}
+
+td.table_header-3
+{
+	background-color: #98FB98;
+	font-weight: bold;
+	text-align: center;
+}
+
+td.first_row
+{
+	background-color: #98FB98;
+}
+
+#iframe_stok_view
+{
+    width: 99%;
+    min-height: 550px;
+    border: 1px solid #FFF;
+}
