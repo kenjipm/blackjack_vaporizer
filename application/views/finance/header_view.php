@@ -2,10 +2,9 @@
 <html lang='en'>
 <head>
 	<meta charset='utf-8'>
-    <title>BlackJack Coffee - Stok</title>
+    <title>BlackJack Vaporizer - Finance</title>
     <!-- SET CSS -->
     <link rel='stylesheet' href='<?=base_url();?>css/default.css' type='text/css' media='screen'/>
-    <link rel='stylesheet' href='<?=base_url();?>css/stok/default.css' type='text/css' media='screen'/>
     
     <!-- SET JS -->
     <script type='text/javascript' src='<?=base_url();?>js/jquery-1.9.1.min.js'></script>

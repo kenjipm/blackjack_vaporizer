@@ -5,7 +5,6 @@
     <title>BlackJack Vaporizer - Stok</title>
     <!-- SET CSS -->
     <link rel='stylesheet' href='<?=base_url();?>css/default.css' type='text/css' media='screen'/>
-    <link rel='stylesheet' href='<?=base_url();?>css/stok/default.css' type='text/css' media='screen'/>
     
     <!-- SET JS -->
     <script type='text/javascript' src='<?=base_url();?>js/jquery-1.9.1.min.js'></script>

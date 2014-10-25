@@ -32,6 +32,7 @@
                 <File name="application\controllers\paket.php" />
                 <File name="application\controllers\penjualan.php" />
                 <File name="application\controllers\stok.php" />
+                <File name="application\controllers\finance.php" />
             </Folder>
             <Folder name="core">
                 <File name="application\core\index.html" />
@@ -80,6 +81,8 @@
                 <File name="application\models\finance_transaksi_kas_model.php" />
                 <File name="application\models\penyesuaian_stok_menu_model.php" />
                 <File name="application\models\penyesuaian_stok_model.php" />
+                <File name="application\models\finance_histori_tutup_buku_kas_rekening_model.php" />
+                <File name="application\models\finance_histori_tutup_buku_kas_tunai_model.php" />
             </Folder>
             <Folder name="third_party">
                 <File name="application\third_party\index.html" />
@@ -101,10 +104,6 @@
                     <File name="application\views\laporan\index_view.php" />
                 </Folder>
                 <Folder name="stok">
-                    <Folder name="penjualan">
-                        <File name="application\views\stok\penjualan\footer_view.php" />
-                        <File name="application\views\stok\penjualan\header_view.php" />
-                    </Folder>
                     <File name="application\views\stok\belanja_view.php" />
                     <File name="application\views\stok\footer_view.php" />
                     <File name="application\views\stok\header_view.php" />
@@ -117,6 +116,20 @@
                 <File name="application\views\header_view.php" />
                 <File name="application\views\index.html" />
                 <File name="application\views\login_view.php" />
+                <Folder name="finance">
+                    <File name="application\views\finance\footer_view.php" />
+                    <File name="application\views\finance\header_view.php" />
+                    <File name="application\views\finance\index_view.php" />
+                    <File name="application\views\finance\alokasi_migrasi_view.php" />
+                    <File name="application\views\finance\alokasi_overview_view.php" />
+                    <File name="application\views\finance\kas_migrasi_view.php" />
+                    <File name="application\views\finance\kas_overview_view.php" />
+                    <File name="application\views\finance\kas_penyesuaian_view.php" />
+                    <File name="application\views\finance\kas_piutang_view.php" />
+                    <File name="application\views\finance\kas_rekening_view.php" />
+                    <File name="application\views\finance\kas_tunai_view.php" />
+                    <File name="application\views\finance\transaksi_overview_view.php" />
+                </Folder>
             </Folder>
             <File name="application\.htaccess" />
             <File name="application\index.html" />
@@ -137,6 +150,8 @@
                 <File name="css\stok\restock.css" />
                 <File name="css\stok\histori_restock.css" />
                 <File name="css\stok\penyesuaian_stok.css" />
+                <File name="css\stok\belanja.css" />
+                <File name="css\stok\penjualan.css" />
             </Folder>
             <Folder name="ui">
                 <Folder name="images">
@@ -175,6 +190,10 @@
             <File name="css\default.css" />
             <File name="css\kasir.css" />
             <File name="css\login.css" />
+            <Folder name="finance">
+                <File name="css\finance\default.css" />
+                <File name="css\finance\kas_tunai.css" />
+            </Folder>
         </Folder>
         <Folder name="img">
             <File name="img\logo.png" />
@@ -196,123 +215,13 @@
                 <File name="js\stok\histori_restock.js" />
                 <File name="js\stok\penyesuaian_stok.js" />
             </Folder>
-            <Folder name="ui">
-                <Folder name="i18n">
-                    <File name="js\ui\i18n\jquery-ui-i18n.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-af.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ar-DZ.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ar.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-az.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-be.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-bg.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-bs.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ca.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-cs.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-cy-GB.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-da.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-de.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-el.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-en-AU.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-en-GB.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-en-NZ.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-eo.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-es.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-et.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-eu.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-fa.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-fi.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-fo.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-fr-CA.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-fr-CH.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-fr.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-gl.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-he.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-hi.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-hr.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-hu.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-hy.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-id.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-is.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-it.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ja.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ka.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-kk.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-km.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ko.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ky.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-lb.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-lt.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-lv.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-mk.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ml.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ms.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-nb.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-nl-BE.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-nl.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-nn.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-no.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-pl.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-pt-BR.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-pt.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-rm.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ro.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ru.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-sk.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-sl.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-sq.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-sr-SR.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-sr.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-sv.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-ta.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-th.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-tj.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-tr.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-uk.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-vi.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-zh-CN.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-zh-HK.min.js" />
-                    <File name="js\ui\i18n\jquery.ui.datepicker-zh-TW.min.js" />
-                </Folder>
-                <File name="js\ui\jquery-ui.min.js" />
-                <File name="js\ui\jquery.ui.accordion.min.js" />
-                <File name="js\ui\jquery.ui.autocomplete.min.js" />
-                <File name="js\ui\jquery.ui.button.min.js" />
-                <File name="js\ui\jquery.ui.core.min.js" />
-                <File name="js\ui\jquery.ui.datepicker.min.js" />
-                <File name="js\ui\jquery.ui.dialog.min.js" />
-                <File name="js\ui\jquery.ui.draggable.min.js" />
-                <File name="js\ui\jquery.ui.droppable.min.js" />
-                <File name="js\ui\jquery.ui.effect-blind.min.js" />
-                <File name="js\ui\jquery.ui.effect-bounce.min.js" />
-                <File name="js\ui\jquery.ui.effect-clip.min.js" />
-                <File name="js\ui\jquery.ui.effect-drop.min.js" />
-                <File name="js\ui\jquery.ui.effect-explode.min.js" />
-                <File name="js\ui\jquery.ui.effect-fade.min.js" />
-                <File name="js\ui\jquery.ui.effect-fold.min.js" />
-                <File name="js\ui\jquery.ui.effect-highlight.min.js" />
-                <File name="js\ui\jquery.ui.effect-pulsate.min.js" />
-                <File name="js\ui\jquery.ui.effect-scale.min.js" />
-                <File name="js\ui\jquery.ui.effect-shake.min.js" />
-                <File name="js\ui\jquery.ui.effect-slide.min.js" />
-                <File name="js\ui\jquery.ui.effect-transfer.min.js" />
-                <File name="js\ui\jquery.ui.effect.min.js" />
-                <File name="js\ui\jquery.ui.menu.min.js" />
-                <File name="js\ui\jquery.ui.mouse.min.js" />
-                <File name="js\ui\jquery.ui.position.min.js" />
-                <File name="js\ui\jquery.ui.progressbar.min.js" />
-                <File name="js\ui\jquery.ui.resizable.min.js" />
-                <File name="js\ui\jquery.ui.selectable.min.js" />
-                <File name="js\ui\jquery.ui.slider.min.js" />
-                <File name="js\ui\jquery.ui.sortable.min.js" />
-                <File name="js\ui\jquery.ui.spinner.min.js" />
-                <File name="js\ui\jquery.ui.tabs.min.js" />
-                <File name="js\ui\jquery.ui.tooltip.min.js" />
-                <File name="js\ui\jquery.ui.widget.min.js" />
-            </Folder>
             <File name="js\jquery-1.9.1.min.js" />
             <File name="js\kasir.js" />
             <File name="js\laporan.js" />
             <File name="js\stok.js" />
+            <Folder name="finance">
+                <File name="js\finance\default.js" />
+            </Folder>
         </Folder>
         <Folder name="sql">
             <File name="sql\blackjack_vaporizer_db.sql" />

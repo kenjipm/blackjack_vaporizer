@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-class Penyesuaian_Stok_Menu_Model extends CI_Model {
-	var $tabel = 't_penyesuaian_stok_menu';
+class Finance_Histori_Tutup_Buku_Kas_Rekening_Model extends CI_Model {
+	var $tabel = 't_finance_histori_tutup_buku_kas_rekening';
         
 	public function __construct() {
 		parent::__construct();
@@ -14,6 +14,16 @@ class Penyesuaian_Stok_Menu_Model extends CI_Model {
 		$query = $this->db->query($query);
 		$result = $query->result();
         return $result[0];
+	}
+    
+	function get_all(){
+		$result = array();
+		$query = "
+			SELECT * FROM $this->tabel
+		";
+		$query = $this->db->query($query);
+		$result = $query->result();
+        return $result;
 	}
     
 	function insert($data){
@@ -67,25 +77,16 @@ class Penyesuaian_Stok_Menu_Model extends CI_Model {
 		";
 		$this->db->query($query);
 	}
-    
-	function get_from_id_menu_and_id_penyesuaian_stok($id_menu, $id_penyesuaian_stok){
+	
+    function get_by_id_kas_rekening_and_session_tutup_buku_no($id_kas_rekening, $session_tutup_buku_no){
 		$query = "
 			SELECT * FROM $this->tabel
-			 WHERE id_menu = ".$id_menu." AND
-			       id_penyesuaian_stok = ".$id_penyesuaian_stok."
+			WHERE id_kas_rekening = ".$id_kas_rekening."
+			AND session_tutup_buku_no = ".$session_no."
 		";
 		$query = $this->db->query($query);
 		$result = $query->result();
-        return $result;
-	}
-	
-    function get_all_from_id_penyesuaian_stok($id_penyesuaian_stok){
-		$query = "
-			SELECT * FROM $this->tabel
-			WHERE id_penyesuaian_stok = ".$id_penyesuaian_stok."
-		";
-		$query = $this->db->query($query);
-		return $query->result();
+		return isset($result[0])?$result[0]:false;
 	}
 }
 ?>

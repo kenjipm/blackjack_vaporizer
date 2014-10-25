@@ -44,7 +44,7 @@ class Kasir extends CI_Controller {
     public function new_order_view()
 	{
         // set menu limit & identifikasi dari order list ato bukan
-        $data["menu_limit"] = 20;
+        $data["menu_limit"] = 30;
         $data["id_order"] = 0;
         
         //ambil no pembeli

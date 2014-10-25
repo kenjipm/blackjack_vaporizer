@@ -68,6 +68,36 @@ class Finance_Transaksi_Kas_Model extends CI_Model {
 		$this->db->query($query);
 	}
 	
+    function get_all_by_tipe_kas_and_array_id_tipe_kas_and_session_tutup_buku_no($tipe_kas, $array_id_tipe_kas, $session_tutup_buku_no){
+		$query = "
+			SELECT * FROM $this->tabel
+			WHERE tipe_kas = '".$tipe_kas."'
+			";
+		$start = true;
+		foreach($array_id_tipe_kas as $id_tipe_kas)
+		{
+			if (!$start)
+			{
+				$query .= " OR ";
+			}
+			else
+			{
+				$query .= " AND ( ";
+				$start = false;
+			}
+			
+			$query .= " id_tipe_kas = ".$id_tipe_kas." ";
+		}
+		if (!$start)
+		{
+			$query .= ") ";
+		}
+		$query .= " AND session_tutup_buku_no = ".$session_tutup_buku_no."
+		";
+		$query = $this->db->query($query);
+		return $query->result();
+	}
+	
     function get_all_current_month($month, $year){
 		$query = "
 			SELECT * FROM $this->tabel
@@ -75,10 +105,7 @@ class Finance_Transaksi_Kas_Model extends CI_Model {
 			AND YEAR(waktu) = ".$year."
 		";
 		$query = $this->db->query($query);
-		$orders = $query->result();
-		$result = $orders;
-		
-		return $result;
+		return $query->result();
 	}
 	
     function get_all_current_session_tutup_buku($session_no){
@@ -87,10 +114,7 @@ class Finance_Transaksi_Kas_Model extends CI_Model {
 			WHERE session_tutup_buku_no = ".$session_no."
 		";
 		$query = $this->db->query($query);
-		$orders = $query->result();
-		$result = $orders;
-		
-		return $result;
+		return $query->result();
 	}
 }
 ?>

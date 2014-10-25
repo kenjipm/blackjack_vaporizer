@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	$("[id|=stok_real]").focusout(function(){
-		check_stok_changed(krow);
+		check_stok_changed($(this).attr("krow"));
 	});
 });
 

@@ -51,9 +51,10 @@
 
     <table id="tabel_menu">
         <tr>
+            <td class="table_header">PO</td>
             <td class="table_header">Item</td>
-            <td class="table_header">Tipe</td>
             <td class="table_header">Jml</td>
+            <td class="table_header">Tipe</td>
             <td class="table_header">Keterangan</td>
             <td class="table_header">Harga Default</td>
             <td class="table_header">Disc. %</td>
@@ -67,9 +68,10 @@
 				?>
 				<input type="hidden" name="menu_sequence-<?=$i?>" id="menu_sequence-<?=$i?>" value="<?=$i?>">
 				<tr class="table_row">
+					<td class="menu_po"><input krow="<?=$i?>" type="checkbox" id="is_po-<?=$i?>" name="is_po-<?=$i?>" value="1"></td>
 					<td class="menu_nama"><input krow="<?=$i?>" type="text" name="menu_nama-<?=$i?>" id="menu_nama-<?=$i?>" default_value=""></td>
-					<td class="menu_tipe"><input krow="<?=$i?>" type="text" name="menu_tipe-<?=$i?>" id="menu_tipe-<?=$i?>" default_value=""></td>
 					<td class="menu_jml"><input krow="<?=$i?>" type="text" name="menu_jml-<?=$i?>" id="menu_jml-<?=$i?>" value="1"></td>
+					<td class="menu_tipe"><input krow="<?=$i?>" type="text" name="menu_tipe-<?=$i?>" id="menu_tipe-<?=$i?>" default_value=""></td>
 					<td class="menu_keterangan"><input krow="<?=$i?>" type="text" name="menu_keterangan-<?=$i?>" id="menu_keterangan-<?=$i?>"></td>
 					<td class="menu_harga_default input_harga"><input krow="<?=$i?>" type="text" name="menu_harga_default-<?=$i?>" id="menu_harga_default-<?=$i?>" default_value=""></td>
 					<td class="menu_discount"><input krow="<?=$i?>" type="text" name="menu_discount-<?=$i?>" id="menu_discount-<?=$i?>" default_value=""> %</td>

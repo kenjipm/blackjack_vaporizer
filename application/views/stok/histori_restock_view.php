@@ -44,11 +44,11 @@
 						<td class="menu_tipe"><?=$belanja_menu->tipe?></td>
 						<td class="menu_jml"><?=$belanja_menu->jumlah?></td>
 						<td class="menu_keterangan"><?=$belanja_menu->keterangan?></td>
-						<td class="menu_harga_default input_harga"><?=$belanja_menu->harga_awal?></td>
+						<td class="menu_harga_default input_harga"><?=$text_renderer->to_rupiah($belanja_menu->harga_awal)?></td>
 						<td class="menu_discount"><?=$discount_per_item?> %</td>
-						<td class="menu_discount_rp input_harga"><?=$discount_rp_per_item?></td>
-						<td class="menu_harga input_harga"><?=$belanja_menu->harga_beli_supplier?></td>
-						<td class="menu_harga_total input_harga"><?=$harga_total_per_item?></td>
+						<td class="menu_discount_rp input_harga"><?=$text_renderer->to_rupiah($discount_rp_per_item)?></td>
+						<td class="menu_harga input_harga"><?=$text_renderer->to_rupiah($belanja_menu->harga_beli_supplier)?></td>
+						<td class="menu_harga_total input_harga"><?=$text_renderer->to_rupiah($harga_total_per_item)?></td>
 					</tr>
 					<?php
 					$subtotal += $harga_total_per_item;
@@ -56,7 +56,7 @@
 				?>
 				<tr>
 					<td class="table_footer" colspan=8>Subtotal</td>
-					<td class="table_footer"><?=$subtotal?></td>
+					<td class="table_footer"><?=$text_renderer->to_rupiah($subtotal)?></td>
 				</tr>
 			</table>
 			<br/>
@@ -64,7 +64,7 @@
 			$total_belanja_session += $subtotal;
 		}
 		?>
-		<h3>Total Belanja Session Ini : Rp <?=$total_belanja_session?></h3>
+		<h3>Total Belanja Session Ini : <?=$text_renderer->to_rupiah($total_belanja_session)?></h3>
 		<?php
 	}
 	?>

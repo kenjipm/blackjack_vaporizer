@@ -12,7 +12,7 @@ class Stok extends CI_Controller {
     
 	public function index()
 	{
-        $data_header['css_list'] = array('stok');
+        $data_header['css_list'] = array('stok/default');
         $data_header['js_list'] = array('stok');
 		
 		$this->load->view('stok/header_view', $data_header);
@@ -22,7 +22,7 @@ class Stok extends CI_Controller {
 	
 	function penjualan_view($month="", $year="")
 	{
-        $data_header['css_list'] = array('stok');
+        $data_header['css_list'] = array('stok/penjualan');
         $data_header['js_list'] = array('stok');
 		$this->load->view('stok/header_view', $data_header);
         
@@ -42,8 +42,8 @@ class Stok extends CI_Controller {
 	
 	function belanja_view($month="", $year="")
 	{
-        $data_header['css_list'] = array('stok');
-        $data_header['js_list'] = array('stok', 'stok/belanja_view');
+        $data_header['css_list'] = array('stok/belanja');
+        $data_header['js_list'] = array('stok');
 		$this->load->view('stok/header_view', $data_header);
         
 		if ($month == "")
@@ -318,23 +318,58 @@ class Stok extends CI_Controller {
 		$belanjas = $this->get_belanja_current_session($session_belanja_no);
 		$data['belanjas'] = $belanjas;
 		
+		$this->load->library('text_renderer');
+		$data['text_renderer'] = $this->text_renderer;
+		
 		$this->load->view('stok/histori_restock_view', $data);
 	}
 	
 	private function render_penyesuaian_stok()
     {
+		// inisialisasi
+		$keterangan_cur = "";
+		
 		// cek dulu bisa edit ga? kalo udah pernah sessionnya, ga boleh edit lagi (bisi kacau real stoknya)
         $this->load->model('variabel_model');
 		$session_penyesuaian_stok_no = $this->variabel_model->get_session_penyesuaian_stok_no();
 		$this->load->model('penyesuaian_stok_model');
-		$is_session_locked = count($this->penyesuaian_stok_model->get_all_current_session_penyesuaian_stok($session_penyesuaian_stok_no)) > 0;
+		$penyesuaian_stok_current_session = $this->penyesuaian_stok_model->get_all_current_session_penyesuaian_stok($session_penyesuaian_stok_no);
+		$is_session_locked = count($penyesuaian_stok_current_session) > 0;
 		
 		//ambil2in list barang
         $this->load->model('menu_model');
 		$items = $this->menu_model->get_all_nama_stok();
 		
+		if ($is_session_locked) //ganti stok2nya pake histori penyesuaian stok
+		{
+			$this->load->model('penyesuaian_stok_menu_model');
+			$penyesuaian_stok_current_session = $penyesuaian_stok_current_session[0];
+			$keterangan_cur = $penyesuaian_stok_current_session->keterangan;
+			foreach ($items as $item)
+			{
+				$penyesuaian_stok_menu_cur = $this->penyesuaian_stok_menu_model->get_from_id_menu_and_id_penyesuaian_stok($item->id,$penyesuaian_stok_current_session->id);
+				if (count($penyesuaian_stok_menu_cur) > 0)
+				{
+					$stok_data_histori = $penyesuaian_stok_menu_cur[0]->stok_data;
+					$stok_real_histori = $penyesuaian_stok_menu_cur[0]->stok_real;
+					$keterangan_item_cur = $penyesuaian_stok_menu_cur[0]->keterangan;
+				}
+				else
+				{
+					$stok_data_histori = "-";
+					$stok_real_histori = "-";
+					$keterangan_item_cur = "";
+				}
+				
+				$item->stok_data = $stok_data_histori;
+				$item->stok_real = $stok_real_histori;
+				$item->keterangan = $keterangan_item_cur;
+			}
+		}
+		
         $this->load->library('text_renderer');
 		$data['items'] = $items;
+		$data['keterangan'] = $keterangan_cur;
 		$data['is_session_locked'] = $is_session_locked;
 		$data['menu_limit'] = count($items);
         $data['text_renderer'] = $this->text_renderer;

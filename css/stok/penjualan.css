@@ -37,35 +37,3 @@ td.first_row
 {
 	background-color: #98FB98;
 }
-
-td.menu_nama
-{
-   width: 350px; 
-}
-
-td.menu_tipe
-{
-   width: 120px; 
-}
-
-td.menu_jml
-{
-   width: 30px; 
-}
-
-td.menu_keterangan
-{
-   width: 150px; 
-}
-
-td.menu_discount
-{
-   width: 60px;
-   text-align: right;
-}
-
-td.input_harga
-{
-   width: 110px; 
-   text-align: right;
-}

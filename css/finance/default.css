@@ -1,0 +1,13 @@
+td.menu_label
+{
+	font-weight: bold;
+	text-align: right;
+}
+
+#iframe_finance_view
+{
+    width: 99%;
+    min-height: 550px;
+    border: 1px solid #FFF;
+}
+
