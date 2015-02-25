@@ -24,6 +24,11 @@ function load_histori_restock_view()
     $("#iframe_stok_view").attr('src', 'stok/histori_restock_view');
 }
 
+function load_review_stok_view()
+{
+    $("#iframe_stok_view").attr('src', 'stok/review_stok_view');
+}
+
 function load_penyesuaian_stok_view()
 {
     $("#iframe_stok_view").attr('src', 'stok/penyesuaian_stok_view');

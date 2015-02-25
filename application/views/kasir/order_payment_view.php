@@ -18,11 +18,43 @@
 
     <span class="label">Customer ID : </span> <input type="text" id="customer_id" name="customer_id" class="textbox" value="<?=$customer_id?>" readonly="readonly"/>
     <br/>
+    <span class="label">CS ID : </span> <input type="text" id="cs_id" name="cs_id" class="textbox" value="<?=$cs_id?>" readonly="readonly"/>
+    <br/>
     <span class="label">Keterangan : </span> <input type="text" id="keterangan" name="keterangan" class="textbox" value="<?=$keterangan?>" readonly="readonly"/>
     <br/>
     <span class="label">Discount : </span> <input type="text" id="discount" name="discount" class="textbox" autocomplete="off"/> %
+	<br/>
+    <span class="label">Poin : </span>
+		<select id="poin_allow" name="poin_allow">
+			<option value="1" selected="selected">Enabled</option>
+			<option value="0">Disabled</option>
+		</select>
+    <br/>
+    <span class="label">Poin Digunakan : </span> <input type="text" id="poin_digunakan" name="poin_digunakan" class="textbox" autocomplete="off"/>
+	<br/>
+    <span class="label">Pembayaran : </span>
+		<select id="tipe_kas_id" name="tipe_kas_id">
+			<?php
+			foreach ($finance_kas_tunais as $finance_kas_tunai)
+			{
+				?>
+				<option value="tunai-<?=$finance_kas_tunai->id?>" <?=($tipe_kas_selected_value == "tunai-".$finance_kas_tunai->id)?"selected=\"selected\"":""?>>
+				Tunai - <?=$finance_kas_tunai->nama?><?=$finance_kas_tunai->keterangan?" (".$finance_kas_tunai->keterangan.")":""?></option>
+				<?php
+			}
+			foreach ($finance_kas_rekenings as $finance_kas_rekening)
+			{
+				?>
+				<option value="rekening-<?=$finance_kas_rekening->id?>" <?=($tipe_kas_selected_value == "rekening-".$finance_kas_rekening->id)?"selected=\"selected\"":""?>>
+				Transfer - <?=$finance_kas_rekening->nama?><?=$finance_kas_rekening->no_rek?" (".$finance_kas_rekening->no_rek.")":""?></option>
+				<?php
+			}
+			?>
+		</select>
 
     <br/>
+    <span class="label">Ongkos Kirim : </span> <input type="text" id="ongkir" name="ongkir" class="textbox" autocomplete="off"/>
+	<br/>
     <br/>
     <?php
         if ($id_order)
@@ -90,6 +122,12 @@
         </tr>
         <tr class="table_summary">
             <td class="summary_label" colspan="6"><input type="button" class="semi_disabled" value="Exact Payment!" onclick="copy_total_payment();"/></td>
+        </tr>
+        <tr class="table_summary">
+            <td class="summary_label" colspan="6"><input type="button" class="semi_disabled" value="To 50000!" onclick="to_50000();"/></td>
+        </tr>
+        <tr class="table_summary">
+            <td class="summary_label" colspan="6"><input type="button" class="semi_disabled" value="To 100000!" onclick="to_100000();"/></td>
         </tr>
     </table>
 	

@@ -103,6 +103,26 @@ class Belanja_Model extends CI_Model {
 		return $this->db->insert_id();
 	}
 	
+	function update($data, $id){
+		$val = '';
+		$start = true;
+		foreach($data as $key => $value){
+			if($start){
+				$val .="$key = '$value'";
+				$start = false;
+			}else{
+				$val .=", $key = '$value'";
+			}
+		}
+		
+		$query = "
+			UPDATE $this->tabel 
+			SET $val
+			WHERE id = $id
+		";
+		$this->db->query($query);
+	}
+	
 	function delete($id){
 		$query = "
 			DELETE 

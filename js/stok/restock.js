@@ -39,11 +39,17 @@ $(document).ready(function(){
 		}
 	});
 	
+	$("[id|=menu_harga_jual]").focusout(function(){
+		//if (($(this).val() != "") && ($(this).attr("default_value") != ""))
+		{
+			check_changed(this);
+		}
+	});
+	
 	$("[id|=menu_harga_default]").focusout(function(){
 		if ($(this).val() != "")
 		{
 			update_discount_rp($(this).attr('krow'));
-			update_harga($(this).attr('krow'));
 			update_harga_total($(this).attr('krow'));
 		}
 		check_changed(this);
@@ -100,20 +106,23 @@ function get_detail_barang(krow, nama_barang)
 			if (result_array[2] != "")
 			{
 				tipe = result_array[0];
-				harga_default = result_array[1];
-				harga = result_array[2];
-				discount_rp = harga_default - harga;
+				harga_jual = result_array[1];
+				harga_default = result_array[2];
+				harga_base = result_array[3];
+				discount_rp = harga_default - harga_base;
 				discount = discount_rp / harga_default * 100;
 				
 				$("#menu_tipe-"+krow).val(tipe);
+				$("#menu_harga_jual-"+krow).val(harga_jual);
 				$("#menu_harga_default-"+krow).val(harga_default);
-				$("#menu_harga-"+krow).val(harga);
+				$("#menu_harga-"+krow).val(harga_base);
 				$("#menu_discount-"+krow).val(discount);
 				$("#menu_discount_rp-"+krow).val(discount_rp);
 				
 				$("#menu_tipe-"+krow).attr("default_value", tipe);
+				$("#menu_harga_jual-"+krow).attr("default_value", harga_jual);
 				$("#menu_harga_default-"+krow).attr("default_value", harga_default);
-				$("#menu_harga-"+krow).attr("default_value", harga);
+				$("#menu_harga-"+krow).attr("default_value", harga_base);
 				$("#menu_discount-"+krow).attr("default_value", discount);
 				$("#menu_discount_rp-"+krow).attr("default_value", discount_rp);
 				
@@ -205,7 +214,7 @@ function check_nama_menu(krow, nama_menu)
 					reset_menu_attribute_value(krow);
                 }
             }
-			else
+			else if ($(element_id).val() != $(element_id).attr("default_value"))
 			{
 				get_detail_barang(krow, nama_menu);
 				$(element_id).removeClass("changed");
@@ -233,6 +242,7 @@ function add_menu_nama_only(krow, nama_menu)
 function reset_menu_attribute_value(krow)
 {
 	$("#menu_tipe-"+krow).val("");
+	$("#menu_harga_jual-"+krow).val("");
 	$("#menu_harga_default-"+krow).val("");
 	$("#menu_harga-"+krow).val("");
 	$("#menu_discount-"+krow).val("");
@@ -240,6 +250,7 @@ function reset_menu_attribute_value(krow)
 	$("#menu_harga_total-"+krow).val("");
 				
 	$("#menu_tipe-"+krow).attr("default_value", "");
+	$("#menu_harga_jual-"+krow).attr("default_value", "");
 	$("#menu_harga_default-"+krow).attr("default_value", "");
 	$("#menu_harga-"+krow).attr("default_value", "");
 	$("#menu_discount-"+krow).attr("default_value", "");

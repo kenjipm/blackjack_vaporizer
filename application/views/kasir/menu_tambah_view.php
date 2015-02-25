@@ -17,15 +17,19 @@
 	<span class="order_header">
 		<?="#".$no_pembeli?>
 		<br/>
-
+		<span class="label">Cari ID : </span> <input type="text" id="customer_nama" name="customer_nama" class="textbox" value="<?=isset($customer_nama)?$customer_nama:""?>" <?=($tipe =="count")?"readonly='readonly'":""?> autocomplete="off"/>
+		<br/>
+		<br/>
 		<span class="label">Customer ID : </span> <input type="text" id="customer_id" name="customer_id" class="textbox" value="<?=isset($customer_id)?$customer_id:""?>" <?=($tipe =="count")?"readonly='readonly'":""?> autocomplete="off"/>
+		<br/>
+		<span class="label">CS ID : </span> <input type="text" id="cs_id" name="cs_id" class="textbox" value="<?=isset($cs_id)?$cs_id:""?>" <?=($tipe =="count")?"readonly='readonly'":""?> autocomplete="off"/>
 		<br/>
 		<span class="label">Keterangan : </span> <input type="text" id="keterangan" name="keterangan" class="textbox" value="<?=isset($keterangan)?$keterangan:""?>" <?=($tipe =="count")?"readonly='readonly'":""?> autocomplete="off"/>
 		<br/>
 		<center><span id="detail_customer" class="success"></span></center>
+		<center><span id="detail_cs" class="success"></span></center>
 	</span>
 	
-    <br/>
     <br/>
     <?php /*<input type="button" class="button_left" value="&#171; Order!" onclick="order_to_list();" <?=$id_order?"disabled='disabled'":""?>/>*/ ?>
     <input type="button" class="button_mid" value="<?=($tipe =="edit")?"Edit & Count!":"Order & Count!"?>" onclick="<?=($tipe =="default")?"order_to_list();":"order_to_list_edit()"?>" <?=($tipe =="count")?"disabled='disabled'":""?>/>

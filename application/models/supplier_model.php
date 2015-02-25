@@ -77,5 +77,23 @@ class Supplier_Model extends CI_Model {
 		";
 		$this->db->query($query);
 	}
+		
+	public function dana_tersimpan_add($id, $value){
+		$query = "
+			UPDATE $this->tabel 
+			SET dana_tersimpan = dana_tersimpan + $value
+			WHERE id = $id
+		";
+		$this->db->query($query);
+	}
+		
+	public function dana_tersimpan_subtract($id, $value){
+		$query = "
+			UPDATE $this->tabel 
+			SET dana_tersimpan = dana_tersimpan - $value
+			WHERE id = $id
+		";
+		$this->db->query($query);
+	}
 }
 ?>

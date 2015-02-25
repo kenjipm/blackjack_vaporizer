@@ -136,6 +136,18 @@ function copy_total_payment()
 	update_payment_change();
 }
 
+function to_50000()
+{
+	$("#payment_pay").val(Math.ceil($("#payment_total").val() / 50000) * 50000);
+	update_payment_change();
+}
+
+function to_100000()
+{
+	$("#payment_pay").val(Math.ceil($("#payment_total").val() / 100000) * 100000);
+	update_payment_change();
+}
+
 // function do_payment(session_no, no_pembeli)
 // {
     // // //cek dulu apa di OK apa di cancel sama user, kalau blm ada ordernya

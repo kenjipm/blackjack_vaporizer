@@ -34,6 +34,27 @@ class Order_Menu_Model extends CI_Model {
 		$query = $this->db->query($query);
 		return $query->result();
 	}
+	
+	function get_by_order_id_and_menu_sequence($order_id, $menu_sequence){
+		$query = "
+			SELECT * FROM $this->tabel 
+			WHERE id_order = $order_id
+            AND menu_sequence = $menu_sequence
+		";
+		$query = $this->db->query($query);
+		$result = $query->result();
+		return $result[0];
+	}
+	
+	function count_total_payment_from_id_order($order_id){
+		$query = "
+			SELECT SUM(harga) AS total_payment FROM $this->tabel 
+			WHERE id_order = $order_id
+		";
+		$query = $this->db->query($query);
+		$result = $query->result();
+		return isset($result[0])?$result[0]->total_payment:0;
+	}
     
 	function insert($data){
 		$keys = '';

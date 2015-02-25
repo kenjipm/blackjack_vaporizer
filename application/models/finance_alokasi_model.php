@@ -26,6 +26,16 @@ class Finance_Alokasi_Model extends CI_Model {
         return $result;
 	}
     
+	function get_id_from_nama($nama){
+		$query = "
+			SELECT id FROM $this->tabel
+			WHERE nama = '".$nama."'
+		";
+		$query = $this->db->query($query);
+		$result = $query->result();
+        return isset($result[0])?$result[0]->id:"";
+	}
+    
 	function insert($data){
 		$keys = '';
 		$values = '';
@@ -68,6 +78,24 @@ class Finance_Alokasi_Model extends CI_Model {
 		";
 		$this->db->query($query);
 	}
+		
+	public function jumlah_add($id, $jumlah){
+		$query = "
+			UPDATE $this->tabel 
+			SET jumlah = jumlah + $jumlah
+			WHERE id = $id
+		";
+		$this->db->query($query);
+	}
+		
+	public function jumlah_subtract($id, $jumlah){
+		$query = "
+			UPDATE $this->tabel 
+			SET jumlah = jumlah - $jumlah
+			WHERE id = $id
+		";
+		$this->db->query($query);
+	}
 	
 	function delete($id){
 		$query = "
@@ -76,31 +104,6 @@ class Finance_Alokasi_Model extends CI_Model {
 			WHERE id = $id
 		";
 		$this->db->query($query);
-	}
-	
-    function get_all_current_month($month, $year){
-		$query = "
-			SELECT * FROM $this->tabel
-			WHERE MONTH(waktu) = ".$month."
-			AND YEAR(waktu) = ".$year."
-		";
-		$query = $this->db->query($query);
-		$orders = $query->result();
-		$result = $orders;
-		
-		return $result;
-	}
-	
-    function get_all_current_session_tutup_buku($session_no){
-		$query = "
-			SELECT * FROM $this->tabel
-			WHERE session_tutup_buku_no = ".$session_no."
-		";
-		$query = $this->db->query($query);
-		$orders = $query->result();
-		$result = $orders;
-		
-		return $result;
 	}
 }
 ?>

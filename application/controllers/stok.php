@@ -82,6 +82,17 @@ class Stok extends CI_Controller {
 		$this->load->view('stok/footer_view');
 	}
     
+	function review_stok_view()
+	{
+		$data_header['css_list'] = array('stok/review_stok');
+        $data_header['js_list'] = array('stok/review_stok');
+		$this->load->view('stok/header_view', $data_header);
+		
+        $this->render_review_stok();
+        
+		$this->load->view('stok/footer_view');
+	}
+	
 	function penyesuaian_stok_view()
 	{
 		$data_header['css_list'] = array('stok/penyesuaian_stok');
@@ -376,6 +387,21 @@ class Stok extends CI_Controller {
 		$this->load->view('stok/penyesuaian_stok_view', $data);
 	}
 	
+	private function render_review_stok()
+    {
+		// inisialisasi
+		$items = array();
+		
+		//ambil2in list barang
+        $this->load->model('menu_model');
+		$items = $this->menu_model->get_all_include_hidden_and_order();
+		
+        $this->load->library('text_renderer');
+		$data['items'] = $items;
+		$data['menu_limit'] = count($items);
+		$this->load->view('stok/review_stok_view', $data);
+	}
+	
 	function do_belanja()
 	{
 		// === Inisialisasi === //
@@ -392,22 +418,26 @@ class Stok extends CI_Controller {
 		$menu_update = array();
 		
 		$total_belanja = 0;
-        
+		$total_dana_disimpan = 0;
+		
         // === Proses === //
         if ($this->input->post('supplier'))
         {
-			// ----- masukin ke tabel belanja dulu ----- //
 			$this->load->model('variabel_model');
-            $belanja['supplier'] = $this->input->post('supplier');
+			$id_supplier = $this->input->post('supplier');
+			$session_tutup_buku_no = $this->variabel_model->get_session_tutup_buku_no();
+			
+			// ----- masukin ke tabel belanja dulu ----- //
+            $belanja['id_supplier'] = $id_supplier;
 			$tipe_pembayaran = explode("-", $this->input->post('tipe_pembayaran'));
             $belanja['tipe_pembayaran'] = $tipe_pembayaran[0];
-			if ($tipe_pembayaran[0] == "transfer")
+			if ($tipe_pembayaran[0] == "rekening")
 			{
 				$belanja['id_rekening'] = $tipe_pembayaran[1];
 			}
             $belanja['keterangan'] = $this->input->post('keterangan');
             $belanja['session_no'] = $this->variabel_model->get_session_belanja_no();
-            $belanja['session_tutup_buku_no'] = $this->variabel_model->get_session_tutup_buku_no();
+            $belanja['session_tutup_buku_no'] = $session_tutup_buku_no;
             
             $this->load->model('belanja_model');
             $id_belanja = $this->belanja_model->insert($belanja);
@@ -416,6 +446,7 @@ class Stok extends CI_Controller {
             $menu_limit = $this->input->post('menu_limit');
             $this->load->model('menu_model');
             $this->load->model('belanja_menu_model');
+			
             for($i=0; $i<$menu_limit; $i++)
             {
 				$menu_nama = $this->input->post('menu_nama-'.$i);
@@ -431,14 +462,30 @@ class Stok extends CI_Controller {
 					// masukin updatenya ke menu
 					$harga_base = $menu->harga_base;
 					$jumlah_stok = $menu->stok;
+					//$jumlah_stok_bulat = ($menu->stok < 0)?0:$menu->stok;
 					$harga_belanja = $this->input->post('menu_harga-'.$i);
 					$jumlah_belanja = $this->input->post('menu_jml-'.$i);
+					//$jumlah_stok_baru = ($jumlah_stok + $jumlah_belanja != 0)?$jumlah_stok + $jumlah_belanja:1;
 					
-					$harga_base_average = (($harga_base * $jumlah_stok) + ($harga_belanja * $jumlah_belanja)) / ($jumlah_stok + $jumlah_belanja);
+					if (($jumlah_stok + $jumlah_belanja == 0) || ($jumlah_stok <= 0))
+					{
+						$harga_base_average = $harga_belanja;
+					}
+					else
+					{
+						$harga_base_average = (($harga_base * $jumlah_stok) + ($harga_belanja * $jumlah_belanja)) / ($jumlah_stok + $jumlah_belanja);
+					}
+					
+					$tipe_belanja = $this->input->post('menu_jp_po_tj-'.$i);
 					$menu_update['nama'] = $this->input->post('menu_nama-'.$i);
 					$menu_update['tipe'] = $this->input->post('menu_tipe-'.$i);
-					$menu_update['stok'] = $menu->stok + $this->input->post('menu_jml-'.$i);
-					$menu_update['harga'] = $this->input->post('menu_harga_default-'.$i);
+					if (($tipe_belanja == "jp") || ($tipe_belanja == "tj"))
+					{
+						$menu_update['stok'] = $menu->stok + $this->input->post('menu_jml-'.$i);
+					}
+					$menu_update['harga'] = $this->input->post('menu_harga_jual-'.$i);
+					$menu_update['harga_default'] = $this->input->post('menu_harga_default-'.$i);
+					$menu_update['harga_min'] = ceil($harga_base_average);
 					$menu_update['harga_base'] = ceil($harga_base_average);
 					$this->menu_model->update($menu_update, $menu->id);
 					
@@ -449,48 +496,161 @@ class Stok extends CI_Controller {
 					$belanja_menu['keterangan'] = $this->input->post('menu_keterangan-'.$i);
 					$belanja_menu['harga_awal'] = $this->input->post('menu_harga_default-'.$i);
 					$belanja_menu['harga'] = $this->input->post('menu_harga-'.$i);
+					$belanja_menu['tipe_belanja'] = $tipe_belanja;
 					
 					$this->belanja_menu_model->insert($belanja_menu);
 					
 					// totalin jumlah belanja
-					$total_belanja += $belanja_menu['jumlah'] * $belanja_menu['harga'];
+					
+					if ($tipe_belanja == "po")
+					{
+						$total_dana_disimpan += $belanja_menu['jumlah'] * $belanja_menu['harga'];
+					}
+					else if ($tipe_belanja == "tj")
+					{
+						$total_dana_disimpan -= $belanja_menu['jumlah'] * $belanja_menu['harga'];
+					}
+					else //if ($tipe_belanja == "jp")
+					{
+						$total_belanja += $belanja_menu['jumlah'] * $belanja_menu['harga'];
+					}
                 }
             }
-			// masukin ke finance rekening / modal yg bersangkutan
-			/*$this->load->model('finance_kas_modal_model');
-			$cur_belanja = $this->belanja_model->get($id_belanja);
-			$str_waktu_belanja = date_format(date_create($cur_belanja->waktu), "j F Y, H:i");
 			
-			if ($tipe_pembayaran[0] == "transfer") // kalo transfer, catet id rekeningnya
+			// benerin total belanja, bisi pake dana tersimpan
+			$is_dana_tersimpan = $this->input->post('is_dana_tersimpan');
+			$dana_terpakai = 0;
+			$this->load->model('finance_transaksi_kas_model');
+			$this->load->model('finance_alokasi_model');
+			$id_alokasi = $this->finance_alokasi_model->get_id_from_nama("Modal");
+			if ($is_dana_tersimpan)
 			{
-				$this->load->model('finance_finance_kas_rekening_model');
-				$finance_rekening['expense'] = $total_belanja;
-				$finance_rekening['linked_transaction'] = "belanja";
-				$finance_rekening['linked_transaction_id'] = "belanja";
-				$finance_rekening['keterangan'] = "Transfer untuk restock (".$str_waktu_belanja.") - ".$cur_belanja->supplier.($cur_belanja->keterangan?", ".$cur_belanja->keterangan:"");;
-				$finance_rekening['id_rekening'] = $id_rekening;
-			}
-			else // kalo tunai
-			{
-				$this->load->model('finance_tunai_model');
+				$this->load->model('supplier_model');
+				$jumlah_dana_tersimpan = $this->supplier_model->get($id_supplier)->dana_tersimpan;
+				$dana_terpakai = ($total_belanja < $jumlah_dana_tersimpan)?$total_belanja:$jumlah_dana_tersimpan;
+				$this->supplier_model->dana_tersimpan_subtract($id_supplier, $dana_terpakai);
+				
+				$finance_transaksi_kas = array();
+				$finance_transaksi_kas['tipe_kas'] = $tipe_pembayaran[0];
+				$finance_transaksi_kas['id_tipe_kas'] = $tipe_pembayaran[1];
+				$finance_transaksi_kas['id_alokasi'] = $id_alokasi;
+				$finance_transaksi_kas['tipe_alokasi'] = "supplier";
+				$finance_transaksi_kas['informasi_alokasi'] = $id_supplier;
+				$finance_transaksi_kas['jumlah'] = $dana_terpakai;
+				$finance_transaksi_kas['transaksi_terkait'] = "belanja";
+				$finance_transaksi_kas['id_transaksi_terkait'] = $id_belanja;
+				$finance_transaksi_kas['session_tutup_buku_no'] = $session_tutup_buku_no;
+				$this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
 			}
 			
-			$finance_kas_modal['expense'] = $total_belanja;
-			$finance_kas_modal['id_belanja'] = $id_belanja;
-			$finance_kas_modal['tipe'] = "Restock";
-			$finance_kas_modal['keterangan'] = "Restock (".$str_waktu_belanja.") - ".$cur_belanja->supplier.($cur_belanja->keterangan?", ".$cur_belanja->keterangan:"");
-			$this->finance_kas_modal_model->insert($finance_kas_modal);
-			
-			if ($tipe_pembayaran[0] == "transfer") // kalo transfer, catet id rekeningnya
+			// masukin ke finance 
+			if ($total_belanja)
 			{
-				$belanja['id_rekening'] = $tipe_pembayaran[1];
+				$finance_transaksi_kas = array();
+				$finance_transaksi_kas['tipe_kas'] = $tipe_pembayaran[0];
+				$finance_transaksi_kas['id_tipe_kas'] = $tipe_pembayaran[1];
+				$finance_transaksi_kas['id_alokasi'] = $id_alokasi;
+				$finance_transaksi_kas['tipe_alokasi'] = "umum";
+				$finance_transaksi_kas['jumlah'] = -$total_belanja;
+				$finance_transaksi_kas['transaksi_terkait'] = "belanja";
+				$finance_transaksi_kas['id_transaksi_terkait'] = $id_belanja;
+				$finance_transaksi_kas['session_tutup_buku_no'] = $session_tutup_buku_no;
+				$this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
 			}
-			else // kalo tunai
+			
+			if ($total_dana_disimpan)
+			{
+				$finance_transaksi_kas = array();
+				$finance_transaksi_kas['tipe_kas'] = $tipe_pembayaran[0];
+				$finance_transaksi_kas['id_tipe_kas'] = $tipe_pembayaran[1];
+				$finance_transaksi_kas['id_alokasi'] = $id_alokasi;
+				$finance_transaksi_kas['tipe_alokasi'] = "supplier";
+				$finance_transaksi_kas['informasi_alokasi'] = $id_supplier;
+				$finance_transaksi_kas['jumlah'] = -$total_dana_disimpan;
+				$finance_transaksi_kas['transaksi_terkait'] = "belanja";
+				$finance_transaksi_kas['id_transaksi_terkait'] = $id_belanja;
+				$finance_transaksi_kas['session_tutup_buku_no'] = $session_tutup_buku_no;
+				$this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
+				
+				$this->load->model('supplier_model');
+				$this->supplier_model->dana_tersimpan_add($id_supplier, $total_dana_disimpan);
+			}
+			$belanja_update['penyimpanan_dana'] = $total_dana_disimpan;
+			$belanja_update['penggunaan_dana'] = $dana_terpakai;
+            $id_belanja = $this->belanja_model->update($belanja_update, $id_belanja);
+			
+			// catet ke finance alokasi yg bersangkutan (modal)
+			$this->finance_alokasi_model->jumlah_subtract($id_alokasi, $total_belanja - $dana_terpakai + $total_dana_disimpan);
+			
+			// catet ke finance kas tunai / rekening
+			if ($tipe_pembayaran[0] == "transfer") // kalo transfer, masukin ke kas rekening
+			{
+				$this->load->model('finance_kas_rekening_model');
+				$this->finance_kas_rekening_model->jumlah_subtract($tipe_pembayaran[1], $total_belanja - $dana_terpakai + $total_dana_disimpan);
+			}
+			else if ($tipe_pembayaran[0] == "tunai") // kalo tunai, masukin ke kas tunai
+			{
+				$this->load->model('finance_kas_tunai_model');
+				$this->finance_kas_tunai_model->jumlah_subtract($tipe_pembayaran[1], $total_belanja - $dana_terpakai + $total_dana_disimpan);
+			}
+        }
+        // $this->histori_restock_view();
+		redirect('stok/histori_restock_view');
+	}
+	
+	public function cancel_belanja()
+	{
+		$id_belanja = $this->input->post('id_belanja');
+		$this->load->model('belanja_model');
+		$this->belanja_model->delete($id_belanja);
+		
+		// ambil menu2nya dulu
+        $this->load->model('belanja_menu_model');
+		$belanja_menus = $this->belanja_menu_model->get_menu($id_belanja);
+		
+		// kurang2i stok menunya, sekalian hapus belanja_menu nya
+        $this->load->model('menu_model');
+		foreach ($belanja_menus as $belanja_menu)
+		{
+			$menu_cur = $this->menu_model->get($belanja_menu->id_menu);
+			$menu_update['stok'] = $menu_cur->stok - $belanja_menu->jumlah;
+			$this->menu_model->update($menu_update, $menu_cur->id);
+			
+			$this->belanja_menu_model->delete($belanja_menu->id);
+		}
+		
+		// udpate finance2 yg bersangkutan
+		$this->load->model('finance_transaksi_kas_model');
+		$finance_transaksi_kass = $this->finance_transaksi_kas_model->get_all_by_transaksi_terkait_and_id_transaksi_terkait("belanja", $id_belanja);
+		$this->load->model('finance_alokasi_model');
+		$this->load->model('finance_kas_rekening_model');
+		$this->load->model('finance_kas_tunai_model');
+		$this->load->model('supplier_model');
+		foreach ($finance_transaksi_kass as $finance_transaksi_kas)
+		{
+			$this->finance_alokasi_model->jumlah_add($finance_transaksi_kas->id_alokasi, -$finance_transaksi_kas->jumlah);
+			if ($finance_transaksi_kas->tipe_kas == "transfer") // kalo transfer, masukin ke kas rekening
+			{
+				$this->finance_kas_rekening_model->jumlah_add($finance_transaksi_kas->id_tipe_kas, -$finance_transaksi_kas->jumlah);
+			}
+			else if ($finance_transaksi_kas->tipe_kas == "tunai") // kalo tunai, masukin ke kas tunai
+			{
+				$this->finance_kas_tunai_model->jumlah_add($finance_transaksi_kas->id_tipe_kas, -$finance_transaksi_kas->jumlah);
+			}
+			if ($finance_transaksi_kas->tipe_alokasi == "supplier") // kalo dana tersimpan supplier, sesuaiin
+			{
+				$this->supplier_model->dana_tersimpan_subtract($finance_transaksi_kas->informasi_alokasi, -$finance_transaksi_kas->jumlah);
+			}
+			else if ($finance_transaksi_kas->tipe_kas == "incentive") // kalo incentive, ga ada tabel nyatet incentive, jadi kosong aja
 			{
 				
-			}*/
-        }
-        $this->histori_restock_view();
+			}
+			
+			$this->finance_transaksi_kas_model->delete($finance_transaksi_kas->id);
+		}
+		
+        // $this->histori_restock_view();
+		redirect('stok/histori_restock_view');
 	}
 	
 	function do_penyesuaian_stok()
@@ -533,9 +693,30 @@ class Stok extends CI_Controller {
 				}
             }
 		}
-        $this->penyesuaian_stok_view();
+        //$this->penyesuaian_stok_view();
+		redirect('stok/penyesuaian_stok_view');
 	}
 	
+    public function add_menu_nama_only()
+    {
+        $nama_menu = $this->input->post('nama');
+        $this->load->model('menu_model');
+    
+        $is_nama_exist = $this->check_nama_menu($nama_menu);
+        if (!$is_nama_exist)
+        {
+            $menu['nama'] = $nama_menu;
+            $menu['harga'] = 0;
+            $menu['harga_base'] = 0;
+            $menu['default_discounted'] = 1;
+            $this->menu_model->insert($menu);
+            echo "";
+            return true;
+        }
+        echo "false";
+        return false;
+    }
+    
 	private function get_penjualan_current_month($month, $year)
 	{
         $result = array();
@@ -630,6 +811,9 @@ class Stok extends CI_Controller {
         }
         $belanja->menu = $belanja_menus;
 		
+        $this->load->model('supplier_model');
+		$belanja->supplier = $this->supplier_model->get($belanja->id_supplier);
+		
         $this->load->model('finance_kas_rekening_model');
         $belanja->rekening = $this->finance_kas_rekening_model->get($belanja->id_rekening);
         
@@ -647,7 +831,7 @@ class Stok extends CI_Controller {
 		if ($this->menu_model->is_nama_exist($nama_barang))
 		{
 			$barang = $this->menu_model->get_from_nama($nama_barang);
-			$detail_barang = $barang->tipe."###".$barang->harga."###".$barang->harga_base;
+			$detail_barang = $barang->tipe."###".$barang->harga."###".$barang->harga_default."###".$barang->harga_base;
 		}
 		echo $detail_barang;
     }
@@ -676,6 +860,49 @@ class Stok extends CI_Controller {
         echo json_encode($result);
     }
 	
+	public function update_item()
+    {
+        $item_id				= $this->input->post('id');
+        $item['tipe']			= $this->input->post('tipe');
+        $item['tipe_2']			= $this->input->post('tipe_2');
+        $item['tipe_3']			= $this->input->post('tipe_3');
+        $item['harga']			= $this->input->post('harga');
+        $item['harga_default']	= $this->input->post('harga_default');
+        $item['harga_min']		= $this->input->post('harga_min');
+        $item['harga_base']		= $this->input->post('harga_base');
+        $item['stok']			= $this->input->post('stok');
+		
+        $this->load->model('menu_model');
+		$result = $this->menu_model->update($item, $item_id);
+		
+		if ($result)
+		{
+			echo "success";
+		}
+		else
+		{
+			echo "failure";
+		}
+    }
+	
+	public function update_item_hidden()
+    {
+        $item_id		= $this->input->post('id');
+        $item['hidden']	= ($this->input->post('hidden') == "true")?1:0;
+		
+        $this->load->model('menu_model');
+		$result = $this->menu_model->update($item, $item_id);
+		
+		if ($result)
+		{
+			echo "success";
+		}
+		else
+		{
+			echo "failure";
+		}
+    }
+    
 	public function check_nama_menu()
     {
         $nama_menu = $this->input->post('nama');
@@ -683,26 +910,6 @@ class Stok extends CI_Controller {
         $is_nama_exist = $this->menu_model->is_nama_exist($nama_menu);
         echo $is_nama_exist?"":"false";
         return $is_nama_exist;
-    }
-    
-    public function add_menu_nama_only()
-    {
-        $nama_menu = $this->input->post('nama');
-        $this->load->model('menu_model');
-    
-        $is_nama_exist = $this->check_nama_menu($nama_menu);
-        if (!$is_nama_exist)
-        {
-            $menu['nama'] = $nama_menu;
-            $menu['harga'] = 0;
-            $menu['harga_base'] = 0;
-            $menu['default_discounted'] = 1;
-            $this->menu_model->insert($menu);
-            echo "";
-            return true;
-        }
-        echo "false";
-        return false;
     }
     
     public function next_session_belanja()

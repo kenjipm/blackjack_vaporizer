@@ -1,0 +1,66 @@
+table
+{
+    border-collapse: collapse;
+	border: 1px solid black;
+	color: black;
+}
+
+td
+{
+    border: 1px solid black;
+	min-width: 25px;
+	background-color: white;
+}
+
+td.table_header
+{
+	background-color: #32CD32;
+	font-weight: bold;
+	text-align: center;
+}
+
+td.table_header-2, td.table_footer
+{
+	background-color: #90EE90;
+	font-weight: bold;
+	text-align: center;
+}
+
+td.table_header-3
+{
+	background-color: #98FB98;
+	font-weight: bold;
+	text-align: center;
+}
+
+td.table_highlight
+{
+	background-color: #CEF6CE;
+}
+
+td.first_row
+{
+	background-color: #98FB98;
+}
+
+td.keterangan
+{
+   min-width: 120px; 
+}
+
+td.tanggal
+{
+   min-width: 90px;
+   text-align: center;
+}
+
+td.nama_kas
+{
+   min-width: 80px; 
+}
+
+td.harga
+{
+   min-width: 120px; 
+   text-align: right;
+}

@@ -73,6 +73,7 @@ class Kasir extends CI_Controller {
         $session_no = 0;
         $jml_menu = 0;
         $customer_id = "";
+        $cs_id = "";
         $keterangan = "";
         $id_order = 0;
         $menu_sequence = 0;
@@ -85,6 +86,7 @@ class Kasir extends CI_Controller {
             $no_pembeli = $this->input->post('no_pembeli');
             $session_no = $this->input->post('session_no');
             $customer_id = $this->input->post('customer_id');
+            $cs_id = $this->input->post('cs_id');
             $keterangan = $this->input->post('keterangan');
             $menu_limit = $this->input->post('menu_limit');
             $id_order = $this->input->post('id_order');
@@ -114,13 +116,36 @@ class Kasir extends CI_Controller {
                 }
             }
         }
+		
+		// ambil tipe kas untuk cara pembayaran
+		$finance_kas_tunais = array();
+		$finance_kas_rekenings = array();
+		$this->load->model('finance_kas_tunai_model');
+		$finance_kas_tunais = $this->finance_kas_tunai_model->get_all_for_order();
+		$this->load->model('finance_kas_rekening_model');
+		$finance_kas_rekenings = $this->finance_kas_rekening_model->get_all_for_order();
+		$this->load->model('variabel_model');
+		$tipe_kas_penjualan_default = $this->variabel_model->get_tipe_kas_penjualan_default();
+		$tipe_kas_selected_value = $tipe_kas_penjualan_default;
+		if ($tipe_kas_penjualan_default == "tunai")
+		{
+			$tipe_kas_selected_value .= "-".$this->variabel_model->get_id_tunai_penjualan_default();
+		}
+		else //if ($tipe_kas_penjualan_default == "rekening")
+		{
+			$tipe_kas_selected_value .= "-".$this->variabel_model->get_id_rekening_penjualan_default();
+		}
         
         // === Masuk2in data === //
         $data["session_no"] = $session_no;
         $data["no_pembeli"] = $no_pembeli;
         $data["jml_menu"] = $jml_menu;
         $data["customer_id"] = $customer_id;
+        $data["cs_id"] = $cs_id;
         $data["keterangan"] = $keterangan;
+        $data["finance_kas_tunais"] = $finance_kas_tunais;
+        $data["finance_kas_rekenings"] = $finance_kas_rekenings;
+        $data["tipe_kas_selected_value"] = $tipe_kas_selected_value;
         $data["id_order"] = $id_order;
         $data["menu"] = $menu;
         
@@ -207,6 +232,15 @@ class Kasir extends CI_Controller {
         return $is_nama_exist;
     }
     
+    public function check_nama_paket()
+    {
+        $nama_paket = $this->input->post('nama');
+        $this->load->model('paket_model');
+        $is_nama_exist = $this->paket_model->is_nama_exist($nama_paket);
+        echo $is_nama_exist?"":"false";
+        return $is_nama_exist;
+    }
+    
     public function add_menu()
     {
         $nama_menu = $this->input->post('nama');
@@ -241,28 +275,32 @@ class Kasir extends CI_Controller {
     {
 		$result = "false";
 		$detail_customer = "";
-		$detail_reseller_customer = "";
+		//$detail_reseller_customer = "";
 	
         $customer_id = $this->input->post('id');
 		
         $this->load->model('customer_model');
         $customer = $this->customer_model->get($customer_id);
-		$detail_customer = $customer->nama.", ".$customer->alamat;
-		
-		if ($customer->reseller_customer_id)
-        {
-			$reseller_customer = $this->customer_model->get($customer->reseller_customer_id);
-			$detail_reseller_customer = $reseller_customer->customer_id.", ".$reseller_customer->nama.", ".$reseller_customer->alamat;
+		if ($customer != "")
+		{
+			$detail_customer = $customer->nama;//.", ".$customer->alamat;
 		}
+		$detail_customer .= ", Poin : ".$customer->poin;
+		
+		// if ($customer->reseller_customer_id)
+        // {
+			// $reseller_customer = $this->customer_model->get($customer->reseller_customer_id);
+			// //$detail_reseller_customer = $reseller_customer->customer_id.", ".$reseller_customer->nama.", ".$reseller_customer->alamat;
+		// }
         
 		if ($detail_customer)
 		{
 			$result = $detail_customer;
 		}
-		if ($detail_reseller_customer)
-		{
-			$result .= "<br/>Handler : ".$detail_reseller_customer;
-		}
+		// if ($detail_reseller_customer)
+		// {
+			// $result .= "<br/>Handler : ".$detail_reseller_customer;
+		// }
 		
         echo $result;
     }
@@ -276,7 +314,7 @@ class Kasir extends CI_Controller {
         $no_ktp					= $this->input->post('no_ktp');
         //$customer_tipe			= $this->input->post('customer_tipe');
         //$perc_sharing_service	= $this->input->post('perc_sharing_service');
-        $perc_sharing_service	= 0;
+        //$perc_sharing_service	= 0;
         $reseller_customer_id	= $this->input->post('reseller_customer_id');
         $hidden					= 0;
 		
@@ -291,7 +329,7 @@ class Kasir extends CI_Controller {
             $customer['alamat']					= $alamat;
             $customer['no_ktp']					= $no_ktp;
             //$customer['customer_tipe']			= $customer_tipe;
-            $customer['perc_sharing_service']	= $perc_sharing_service;
+            //$customer['perc_sharing_service']	= $perc_sharing_service;
             $customer['reseller_customer_id']	= $reseller_customer_id;
             $customer['hidden']					= $hidden;
             $this->customer_model->insert($customer);
@@ -312,6 +350,29 @@ class Kasir extends CI_Controller {
         foreach ($menus as $menu)
         {
             $result[] = $menu->nama;
+        }
+        
+        /*$this->load->model('paket_model');
+        $pakets = $this->paket_model->get_all_nama();
+        
+        foreach ($pakets as $paket)
+        {
+            $result[] = $paket->nama;
+        }*/
+        
+        echo json_encode($result);
+    }
+    
+    public function get_all_nama_customer()
+    {
+        $result = array();
+        
+        $this->load->model('customer_model');
+        $customers = $this->customer_model->get_all();
+        
+        foreach ($customers as $customer)
+        {
+            $result[] = $customer->nama." (".$customer->customer_id.")";
         }
         
         echo json_encode($result);
@@ -395,6 +456,7 @@ class Kasir extends CI_Controller {
         $session_no = $this->input->post('session_no');
         $no_pembeli = $this->input->post('no_pembeli');
         $customer_id = $this->input->post('customer_id');
+        $cs_id = $this->input->post('cs_id');
         $keterangan = $this->input->post('keterangan');
         $id_order = $this->input->post('id_order');
         $menus = array();
@@ -420,6 +482,7 @@ class Kasir extends CI_Controller {
         $data["session_no"] = $session_no;
         $data["no_pembeli"] = $no_pembeli;
         $data["customer_id"] = $customer_id;
+        $data["cs_id"] = $cs_id;
         $data["keterangan"] = $keterangan;
         $data["menus"] = $menus;
         $data["id_order"] = $id_order;
@@ -444,6 +507,7 @@ class Kasir extends CI_Controller {
         $session_no = $this->input->post('session_no');
         $no_pembeli = $this->input->post('no_pembeli');
         $customer_id = $this->input->post('customer_id');
+        $cs_id = $this->input->post('cs_id');
         $keterangan = $this->input->post('keterangan');
         $id_order = $this->input->post('id_order');
         $menus = array();
@@ -469,6 +533,7 @@ class Kasir extends CI_Controller {
         $data["session_no"] = $session_no;
         $data["no_pembeli"] = $no_pembeli;
         $data["customer_id"] = $customer_id;
+        $data["cs_id"] = $cs_id;
         $data["keterangan"] = $keterangan;
         $data["menus"] = $menus;
         $data["id_order"] = $id_order;
@@ -498,7 +563,11 @@ class Kasir extends CI_Controller {
             $order['no_pembeli'] = $this->input->post('no_pembeli');
             $order['session_no'] = $this->input->post('session_no');
             $order['customer_id'] = $this->input->post('customer_id');
+            $order['customer_service_id'] = $this->input->post('cs_id');
             $order['keterangan'] = $this->input->post('keterangan');
+			$this->load->model('variabel_model');
+			$session_tutup_buku_no = $this->variabel_model->get_session_tutup_buku_no();
+			$order['session_tutup_buku_no'] = $session_tutup_buku_no;
             
             $this->load->model('order_model');
             $order_id = $this->order_model->insert($order);
@@ -506,6 +575,8 @@ class Kasir extends CI_Controller {
             $menu_limit = $this->input->post('menu_limit');
             $this->load->model('menu_model');
             $this->load->model('order_menu_model');
+            $this->load->model('paket_model');
+            $this->load->model('paket_menu_model');
             for($i=0; $i<$menu_limit; $i++)
             {
                 if ($this->input->post('menu_nama-'.$i))
@@ -514,21 +585,54 @@ class Kasir extends CI_Controller {
                     $order_menu['menu_sequence'] = $this->input->post('menu_sequence-'.$i);
                     $menu_jml = intval($this->input->post('menu_jml-'.$i))?intval($this->input->post('menu_jml-'.$i)):1;
                     $menu_id = $this->menu_model->get_id_from_nama($this->input->post('menu_nama-'.$i));
-                    $menu = $this->menu_model->get($menu_id);
-                    
-                    for ($j=0; $j<$menu_jml; $j++)
-                    {
-                        $order_menu['id_order'] = $order_id;
-                        $order_menu['id_menu'] = $menu_id;
-                        $order_menu['harga_min'] = $menu->harga_min;
-                        $order_menu['harga_base'] = $menu->harga_base;
-                        $order_menu['harga_setor'] = $menu->harga_setor;
-                        $order_menu['nama_setor'] = $menu->nama_setor;
-                        $this->order_menu_model->insert($order_menu);
-                    }
-					
-					// update stok menu
-					$this->menu_model->stok_subtract($menu_id, $menu_jml);
+					if ($menu_id != "")
+					{
+						$menu = $this->menu_model->get($menu_id);
+						
+						for ($j=0; $j<$menu_jml; $j++)
+						{
+							$order_menu['id_order'] = $order_id;
+							$order_menu['id_menu'] = $menu_id;
+							$order_menu['harga_min'] = $menu->harga_min;
+							$order_menu['harga_base'] = $menu->harga_base;
+							$order_menu['harga_setor'] = $menu->harga_setor;
+							$order_menu['nama_setor'] = $menu->nama_setor;
+							$this->order_menu_model->insert($order_menu);
+						}
+						
+						// update stok menu
+						$this->menu_model->stok_subtract($menu_id, $menu_jml);
+					}
+					else // kalo ga ada di menu, berarti paket
+					{
+						$paket_id = $this->paket_model->get_id_from_nama($this->input->post('menu_nama-'.$i));
+						if ($paket_id)
+						{
+							$paket = $this->paket_model->get($paket_id);
+							$paket_menus = $this->paket_menu_model->get_all_from_id_paket($paket_id);
+							
+							foreach ($paket_menus as $paket_menu)
+							{
+								$menu = $this->menu_model->get($paket_menu->id_menu);
+								$menu_id = $menu->id;
+								for ($k=0; $k<$paket_menu->jumlah; $k++)
+								{
+									for ($j=0; $j<$menu_jml; $j++)
+									{
+										$order_menu['id_order'] = $order_id;
+										$order_menu['id_menu'] = $menu_id;
+										$order_menu['harga_min'] = $menu->harga_min;
+										$order_menu['harga_base'] = $menu->harga_base;
+										$order_menu['harga_setor'] = $menu->harga_setor;
+										$order_menu['nama_setor'] = $menu->nama_setor;
+										$this->order_menu_model->insert($order_menu);
+									}
+									// update stok menu
+									$this->menu_model->stok_subtract($menu_id, $menu_jml);
+								}
+							}
+						}
+					}
                 }
             }
         }
@@ -537,7 +641,7 @@ class Kasir extends CI_Controller {
         $this->order_list_view($order_id);
     }
     
-    public function kasir_delete_order($order_id)
+    public function kasir_delete_order($order_id, $customer_id)
     {
         // === Proses === //
 		$this->load->model('menu_model');
@@ -547,12 +651,14 @@ class Kasir extends CI_Controller {
 		//hapus order nya dulu
         $this->order_model->delete($order_id);
         //hapus semua menu ordernya
+        $payment_total = $this->order_menu_model->count_total_payment_from_id_order($order_id);
         $menu_jmls = $this->order_menu_model->delete_from_id_order($order_id);
 		// update stok menu
 		foreach ($menu_jmls as $menu_id => $menu_jml)
 		{
 			$this->menu_model->stok_add($menu_id, $menu_jml);
 		}
+		$this->delete_order_to_finance($order_id, $customer_id, $payment_total);
         
         /* ===== Load View Order List ===== */
         $this->order_list_view($order_id);
@@ -562,6 +668,7 @@ class Kasir extends CI_Controller {
     {
         $this->load->model('order_model');
         $this->load->model('order_menu_model');
+        $this->load->model('menu_model');
         $this->load->model('variabel_model');
         $this->load->model('user_model');
         $this->load->library('text_renderer');
@@ -571,13 +678,24 @@ class Kasir extends CI_Controller {
         // 1. ambil2in informasi yg dibutuhin buat database order
         $id_order = $this->input->post('id_order');
         $discount = $this->input->post('discount');
+		$ongkir = $this->input->post('ongkir');
+		$tipe_kas_id = $this->input->post('tipe_kas_id');
         // set bahwa udah dibayar & set default discountnya
-        $this->order_model->set_paid($id_order, 1);
-        $this->order_model->set_default_discount($id_order, $discount);
+		$order_update['paid'] = 1;
+		$order_update['ongkir'] = $ongkir;
+		$order_update['default_discount'] = $discount;
+		$tipe_kas_id = explode("-", $tipe_kas_id);
+		$order_update['tipe_kas'] = $tipe_kas_id[0];
+		$order_update['id_tipe_kas'] = $tipe_kas_id[1];
+		$this->order_model->update($id_order, $order_update);
+        // $this->order_model->set_paid($id_order, 1);
+        // $this->order_model->set_ongkir($id_order, $ongkir);
+        // $this->order_model->set_default_discount($id_order, $discount);
         
         // 2. ambil2in informasi yg dibutuhin buat database order_menu sekalian print bon
         $jml_menu = $this->input->post('jml_menu');
-        for ($i=0; $i<$jml_menu; $i++)
+        $harga_base_total = 0;
+		for ($i=0; $i<$jml_menu; $i++)
         {
             $menu_sequence = $this->input->post('menu_sequence-'.$i);
             $payment_initial_price = $this->input->post('payment_initial_price-'.$i);
@@ -586,11 +704,13 @@ class Kasir extends CI_Controller {
             
             // update order_menu sesuai dgn sequencenya dan itung juga harga satuannya
             $jml_menu_sequence = $this->order_menu_model->count_by_order_id_and_menu_sequence($id_order, $menu_sequence);
+            $order_menu_cur = $this->order_menu_model->get_by_order_id_and_menu_sequence($id_order, $menu_sequence);
 			echo "jml menu : ".$jml_menu_sequence."<br/>";
             $order_menu_update['harga_awal'] = intval($payment_initial_price / $jml_menu_sequence);
             $order_menu_update['discount'] = $payment_discount;
             $order_menu_update['harga'] = intval($payment_price / $jml_menu_sequence);
             $this->order_menu_model->update_by_order_id_and_menu_sequence($id_order, $menu_sequence, $order_menu_update);
+			$harga_base_total += $this->menu_model->get($order_menu_cur->id_menu)->harga_base;
 			
             //yg buat print bon
             $payment_nama = $this->input->post('payment_nama-'.$i);
@@ -612,7 +732,50 @@ class Kasir extends CI_Controller {
         $payment_change = $this->input->post('payment_change');
         $no_pembeli = $this->input->post('no_pembeli');
         $customer_id = $this->input->post('customer_id');
+        $poin_allow = $this->input->post('poin_allow');
+        $poin_digunakan = $this->input->post('poin_digunakan');
         $keterangan = $this->input->post('keterangan');
+		
+		// masukin ke finance rekening yg bersangkutan
+		$this->load->model('finance_transaksi_kas_model');
+		$this->load->model('finance_alokasi_model');
+		$cs_id = $this->input->post('cs_id');
+		
+		$this->input_order_to_finance($tipe_kas_id, $id_order, $customer_id, $poin_allow, $poin_digunakan, $cs_id, $payment_total, $harga_base_total, $ongkir);
+		/*
+		// catet ke finance kas tunai / rekening
+		if ($tipe_kas == "tunai") // kalo tunai, masukin ke kas tunai
+		{
+			$finance_transaksi_kas['id_tipe_kas'] = $this->variabel_model->get_id_tunai_penjualan_default();
+			$this->load->model('finance_kas_tunai_model');
+			$this->finance_kas_tunai_model->jumlah_add($finance_transaksi_kas['id_tipe_kas'], $payment_total);
+		}
+		else if ($tipe_kas == "rekening") // kalo transfer, masukin ke kas rekening
+		{
+			$finance_transaksi_kas['id_tipe_kas'] = $this->variabel_model->get_id_rekening_penjualan_default();
+			$this->load->model('finance_kas_rekening_model');
+			$this->finance_kas_rekening_model->jumlah_add($finance_transaksi_kas['id_tipe_kas'], $payment_total);
+		}
+		// masukin ke alokasi modal & bonus
+		$finance_transaksi_kas['transaksi_terkait'] = "order";
+		$finance_transaksi_kas['id_transaksi_terkait'] = $id_order;
+		$finance_transaksi_kas['session_tutup_buku_no'] = $this->variabel_model->get_session_tutup_buku_no();
+		// masukin ke alokasi modal
+		$id_alokasi_modal_default = $this->variabel_model->get_id_alokasi_modal_default();
+		$finance_transaksi_kas['id_alokasi'] = $id_alokasi_modal_default;
+		$finance_transaksi_kas['jumlah'] = $harga_base_total;
+		$this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
+		// masukin ke alokasi bonus
+		$id_alokasi_bonus_default = $this->variabel_model->get_id_alokasi_bonus_default();
+		$finance_transaksi_kas['id_alokasi'] = $id_alokasi_bonus_default;
+		$finance_transaksi_kas['jumlah'] = $payment_total - $harga_base_total;
+		$this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
+		
+		// catet ke finance alokasi yg bersangkutan (modal)
+		$this->finance_alokasi_model->jumlah_add($id_alokasi_modal_default, $harga_base_total);		
+		// catet ke finance alokasi yg bersangkutan (modal)
+		$this->finance_alokasi_model->jumlah_add($id_alokasi_bonus_default, $payment_total - $harga_base_total);
+		*/
         
 		$customer_nama = "";
 		if ($customer_id)
@@ -648,6 +811,170 @@ class Kasir extends CI_Controller {
         /* ===== Header, Body, Footer ===== */
 		$this->load->view('kasir/print_nota_view', $data);
     }
+	
+	private function input_order_to_finance($tipe_kas_id, $id_order, $customer_id, $poin_allow, $poin_digunakan, $cs_id, $payment_total, $harga_base_total, $ongkir=0)
+	{
+		$this->load->model('finance_transaksi_kas_model');
+		if ($this->finance_transaksi_kas_model->is_id_transaksi_exist($id_order)) // kalo ordernya udah ada, hapus dulu aja br masukin lg
+		{
+			$this->delete_order_to_finance($id_order, $customer_id, $payment_total);
+		}
+		//$tipe_kas_id = explode("-", $tipe_kas_id); // udah di explode di pay_order
+		$this->load->model('variabel_model');
+		// catet ke finance kas tunai / rekening
+		if ($tipe_kas_id[0] == "tunai") // kalo tunai, masukin ke kas tunai
+		{
+			$this->load->model('finance_kas_tunai_model');
+			$this->finance_kas_tunai_model->jumlah_add($tipe_kas_id[1], $payment_total + $ongkir);
+		}
+		else if ($tipe_kas_id[0] == "rekening") // kalo transfer, masukin ke kas rekening
+		{
+			$this->load->model('finance_kas_rekening_model');
+			$this->finance_kas_rekening_model->jumlah_add($tipe_kas_id[1], $payment_total + $ongkir);
+		}
+		
+		// masukin ke alokasi modal & bonus
+		$finance_transaksi_kas['tipe_kas'] = $tipe_kas_id[0];
+		$finance_transaksi_kas['id_tipe_kas'] = $tipe_kas_id[1];
+		$finance_transaksi_kas['transaksi_terkait'] = "order";
+		$finance_transaksi_kas['id_transaksi_terkait'] = $id_order;
+		$finance_transaksi_kas['session_tutup_buku_no'] = $this->variabel_model->get_session_tutup_buku_no();
+		// masukin ke alokasi modal
+		$id_alokasi_modal_default = $this->variabel_model->get_id_alokasi_modal_default();
+		$finance_transaksi_kas['id_alokasi'] = $id_alokasi_modal_default;
+		$finance_transaksi_kas['tipe_alokasi'] = "umum";
+		$finance_transaksi_kas['informasi_alokasi'] = "";
+		$finance_transaksi_kas['jumlah'] = $harga_base_total;
+		$this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
+		
+		// masukin ke alokasi incentive
+		$total_incentive = 0;
+		$id_alokasi_bonus_default = $this->variabel_model->get_id_alokasi_bonus_default();
+		$this->load->model('customer_model');
+		if ($cs_id) // kalo ada cs nya
+		{
+			$finance_transaksi_kas['id_alokasi'] = $id_alokasi_bonus_default;
+			$finance_transaksi_kas['tipe_alokasi'] = "incentive";
+			$finance_transaksi_kas['informasi_alokasi'] = $cs_id;
+			$cs_cur = $this->customer_model->get($cs_id);
+			$total_incentive = intval(($cs_cur->perc_incentive / 100) * $payment_total);
+			$finance_transaksi_kas['jumlah'] = $total_incentive;
+			$this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
+		}
+		// cek & masukin ke alokasi poin
+		$total_poin_dalam_rupiah = 0;
+		if ( ($poin_allow) && (!$this->customer_model->is_reseller($customer_id)) )
+		{
+			$poin_kelipatan_rupiah = $this->variabel_model->get_poin_kelipatan_rupiah();
+			$poin_ke_rupiah = $this->variabel_model->get_poin_ke_rupiah();
+			$poin_multiplier = $this->variabel_model->get_poin_multiplier();
+			$total_poin = floor($payment_total / $poin_kelipatan_rupiah) * $poin_multiplier;
+			$total_poin_dalam_rupiah = $total_poin * $poin_ke_rupiah;
+			if ($total_poin_dalam_rupiah)
+			{
+				$finance_transaksi_kas['id_alokasi'] = $id_alokasi_bonus_default;
+				$finance_transaksi_kas['tipe_alokasi'] = "poin";
+				$finance_transaksi_kas['informasi_alokasi'] = "";
+				$finance_transaksi_kas['jumlah'] = $total_poin_dalam_rupiah;
+				$this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
+				
+				$this->customer_model->poin_increment($customer_id, $total_poin);
+			}
+		}
+		// kalau menggunakan poin, masukin ke alokasi poin
+		$poin_digunakan_dalam_rupiah = $poin_digunakan * $poin_ke_rupiah;
+		if ($poin_digunakan_dalam_rupiah)
+		{
+			// $finance_transaksi_kas['id_alokasi'] = $id_alokasi_bonus_default;
+			// $finance_transaksi_kas['tipe_alokasi'] = "poin";
+			// $finance_transaksi_kas['informasi_alokasi'] = "";
+			// $finance_transaksi_kas['jumlah'] = $poin_digunakan_dalam_rupiah;
+			// $this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
+			
+			$this->customer_model->poin_decrement($customer_id, $poin_digunakan);
+		}
+		
+		// masukin ke alokasi bonus
+		$total_bonus = $payment_total + $poin_digunakan_dalam_rupiah - $harga_base_total - $total_incentive - $total_poin_dalam_rupiah;
+		if ($total_bonus)
+		{
+			$finance_transaksi_kas['id_alokasi'] = $id_alokasi_bonus_default;
+			$finance_transaksi_kas['tipe_alokasi'] = "umum";
+			$finance_transaksi_kas['informasi_alokasi'] = "";
+			$finance_transaksi_kas['jumlah'] = $total_bonus;
+			$this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
+		}
+		
+		// buat ongkir
+		if (($ongkir) && ($tipe_kas_id[0] == "rekening"))
+		{
+			// kurangi kas tunai
+			$finance_transaksi_kas['tipe_kas'] = "tunai";
+			$finance_transaksi_kas['id_tipe_kas'] = 1;
+			$finance_transaksi_kas['id_alokasi'] = $id_alokasi_bonus_default;
+			$finance_transaksi_kas['tipe_alokasi'] = "umum";
+			$finance_transaksi_kas['informasi_alokasi'] = "";
+			$finance_transaksi_kas['keterangan'] = "Ongkir";
+			$finance_transaksi_kas['jumlah'] = -$ongkir;
+			$this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
+			
+			// tambahin kas rekening
+			$finance_transaksi_kas['tipe_kas'] = "rekening";
+			$finance_transaksi_kas['id_tipe_kas'] = $tipe_kas_id[1];
+			$finance_transaksi_kas['jumlah'] = $ongkir;
+			$this->finance_transaksi_kas_model->insert($finance_transaksi_kas);
+		}
+		
+		$this->load->model('finance_alokasi_model');
+		// catet ke finance alokasi yg bersangkutan (modal)
+		$this->finance_alokasi_model->jumlah_add($id_alokasi_modal_default, $harga_base_total);
+		if ($cs_id) // kalo ada cs nya
+		{
+			// catet ke finance alokasi yg bersangkutan (incentive)
+			$this->finance_alokasi_model->jumlah_add($id_alokasi_bonus_default, $total_incentive);
+		}
+		// catet ke finance alokasi yg bersangkutan (bonus)
+		$this->finance_alokasi_model->jumlah_add($id_alokasi_bonus_default, $total_bonus);
+	}
+	
+	private function delete_order_to_finance($id_order, $customer_id, $payment_total)
+	{
+		$this->load->model('finance_transaksi_kas_model');
+		$finance_transaksi_kass = $this->finance_transaksi_kas_model->get_all_by_transaksi_terkait_and_id_transaksi_terkait("order", $id_order);
+		
+		$this->load->model('finance_alokasi_model');
+		$this->load->model('finance_transaksi_kas_model');
+		foreach ($finance_transaksi_kass as $finance_transaksi_kas)
+		{
+			if ($finance_transaksi_kas->tipe_kas == "tunai") // kalo tunai, masukin ke kas tunai
+			{
+				$this->load->model('finance_kas_tunai_model');
+				$this->finance_kas_tunai_model->jumlah_subtract($finance_transaksi_kas->id_tipe_kas, $finance_transaksi_kas->jumlah);
+			}
+			else if ($finance_transaksi_kas->tipe_kas == "rekening") // kalo transfer, masukin ke kas rekening
+			{
+				$this->load->model('finance_kas_rekening_model');
+				$this->finance_kas_rekening_model->jumlah_subtract($finance_transaksi_kas->id_tipe_kas, $finance_transaksi_kas->jumlah);
+			}
+			// catet ke finance alokasi yg bersangkutan (modal)
+			$this->finance_alokasi_model->jumlah_subtract($finance_transaksi_kas->id_alokasi, $finance_transaksi_kas->jumlah);
+			$this->finance_transaksi_kas_model->delete($finance_transaksi_kas->id);
+		}
+		// cek & kurangi poin
+		$this->load->model('customer_model');
+		if (!$this->customer_model->is_reseller($customer_id))
+		{
+			echo "TOTAL PAYMENT : ".$payment_total;
+			$this->load->model('variabel_model');
+			$poin_kelipatan_rupiah = $this->variabel_model->get_poin_kelipatan_rupiah();
+			$poin_multiplier = $this->variabel_model->get_poin_multiplier();
+			$total_poin = floor($payment_total / $poin_kelipatan_rupiah) * $poin_multiplier;
+			if ($total_poin)
+			{
+				$this->customer_model->poin_decrement($customer_id, $total_poin);
+			}
+		}
+	}
     
     public function logout()
     {

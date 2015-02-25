@@ -38,6 +38,19 @@ td.first_row
 	background-color: #98FB98;
 }
 
+td.menu_jp_po_tj
+{
+	max-width: 2px;
+	margin: 0;
+	padding: 0;
+}
+
+td.menu_jp_po_tj input
+{
+	text-align: center;
+	margin: 0;
+}
+
 td.menu_nama input
 {
    min-width: 240px; 
@@ -46,6 +59,11 @@ td.menu_nama input
 td.menu_jml input
 {
    max-width: 30px; 
+}
+
+td.menu_tipe input
+{
+   max-width: 130px; 
 }
 
 td.menu_discount input
@@ -60,7 +78,7 @@ td.menu_discount
 
 td.input_harga input
 {
-   max-width: 120px; 
+   max-width: 90px; 
 }
 
 input.changed

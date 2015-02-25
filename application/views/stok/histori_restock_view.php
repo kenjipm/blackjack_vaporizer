@@ -13,10 +13,11 @@
 		{
 			?>
 			<span class="order_header">
+				<span class="label"><input type="button" value="Cancel" onclick="cancel_belanja('<?=$belanja->id?>');"/></span>
 				<span class="label"><b>Tanggal : </b></span><?=$belanja->str_waktu?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<span class="label"><b>Supplier : </b></span><?=$belanja->supplier?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span class="label"><b>Supplier : </b></span><?=$belanja->supplier->nama?><?=$belanja->supplier->keterangan?" (".$belanja->supplier->keterangan.")":""?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<span class="label"><b>Keterangan : </b></span><?=$belanja->keterangan?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<span class="label"><b>Pembayaran : </b></span><?=($belanja->tipe_pembayaran == "tunai")?"Tunai":"Transfer - ".$belanja->rekening->nama." (".$belanja->rekening->no_rek.")"?>
+				<span class="label"><b>Pembayaran : </b></span><?=($belanja->tipe_pembayaran == "tunai")?"Tunai":"Transfer - ".$belanja->rekening->nama." (".$belanja->rekening->no_rek.")"?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			</span>
 			
 			<table id="tabel_menu">
@@ -33,6 +34,7 @@
 				</tr>
 				<?php
 				$subtotal = 0;
+				$po_subtotal = 0;
 				foreach($belanja->menu as $belanja_menu)
 				{
 					$discount_per_item = round((1 - ($belanja_menu->harga_beli_supplier / $belanja_menu->harga_awal)) * 10000) / 100;
@@ -54,6 +56,12 @@
 					$subtotal += $harga_total_per_item;
 				}
 				?>
+				<tr>
+					<td class="table_footer" colspan=4>Penyimpanan Dana</td>
+					<td class="table_footer"><?=$text_renderer->to_rupiah($belanja->penyimpanan_dana)?></td>
+					<td class="table_footer" colspan=3>Penggunaan Dana</td>
+					<td class="table_footer"><?=$text_renderer->to_rupiah($belanja->penggunaan_dana)?></td>
+				</tr>
 				<tr>
 					<td class="table_footer" colspan=8>Subtotal</td>
 					<td class="table_footer"><?=$text_renderer->to_rupiah($subtotal)?></td>

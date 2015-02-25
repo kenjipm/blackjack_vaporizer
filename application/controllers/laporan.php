@@ -78,6 +78,11 @@ class Laporan extends CI_Controller {
 			else
 			{
 				$order_menus[$array_identifier]->jumlah++;
+				// $order_menus[$array_identifier]->harga_min += $order_menu_temp->harga_min;
+				// $order_menus[$array_identifier]->harga_base += $order_menu_temp->harga_base;
+				// $order_menus[$array_identifier]->harga_setor += $order_menu_temp->harga_setor;
+				// $order_menus[$array_identifier]->nama_setor += $order_menu_temp->nama_setor;
+				// $order_menus[$array_identifier]->harga_akhir += $order_menu_temp->harga;
 			}
 			// echo "array_identifier : ".$array_identifier.", tes isset : ".(isset($order_menus[$array_identifier]->jumlah)?"set":"not set");
             // $order_menus[$array_identifier]->jumlah = isset($order_menus[$array_identifier]->jumlah)?$order_menus[$array_identifier]->jumlah+1:1;

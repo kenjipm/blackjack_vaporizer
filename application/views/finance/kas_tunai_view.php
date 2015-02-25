@@ -18,7 +18,7 @@
 		?>
 		<hr size=1/>
 		<h3>Masukkan data</h3>
-		<span class="label">Kas : </span><select id="id_tipe_kas">
+		<span class="label">Kas : </span><select id="id_tipe_kas" name="id_tipe_kas">
 		<?php
 			foreach($finance_kas_tunais as $finance_kas_tunai)
 			{
@@ -27,7 +27,7 @@
 				<?php
 			}
 		?></select>&nbsp;&nbsp;
-		<span class="label">Alokasi : </span><select id="id_finance_alokasi">
+		<span class="label">Alokasi : </span><select id="id_finance_alokasi" name="id_finance_alokasi">
 		<?php
 			foreach($finance_alokasis as $finance_alokasi)
 			{
@@ -77,8 +77,8 @@
 					<td class="first_row nama_kas"><?=$finance_kas_tunai->nama?><?=$finance_kas_tunai->keterangan?" (".$finance_kas_tunai->keterangan.")":""?></td>
 					<td class="harga"><?=$text_renderer->to_rupiah($finance_kas_tunai->starting_balance)?></td>
 					<td class="harga"><?=$text_renderer->to_rupiah($finance_kas_tunai->total_kredit)?></td>
-					<td class="harga"><?=$text_renderer->to_rupiah($finance_kas_tunai->total_debit)?></td>
-					<td class="harga"><?=$text_renderer->to_rupiah($finance_kas_tunai->jumlah)?></td>
+					<td class="harga"><?=$text_renderer->to_rupiah(-$finance_kas_tunai->total_debit)?></td>
+					<td class="harga"><?=$text_renderer->to_rupiah($finance_kas_tunai->ending_balance)?></td>
 				</tr>
 				<?php
 			}
@@ -88,7 +88,7 @@
 			<td class="table_header-2 nama_kas">TOTAL</td>
 			<td class="table_header-2 harga"><?=$text_renderer->to_rupiah($finance_kas_total->starting_balance)?></td>
 			<td class="table_header-2 harga"><?=$text_renderer->to_rupiah($finance_kas_total->total_kredit)?></td>
-			<td class="table_header-2 harga"><?=$text_renderer->to_rupiah($finance_kas_total->total_debit)?></td>
+			<td class="table_header-2 harga"><?=$text_renderer->to_rupiah(-$finance_kas_total->total_debit)?></td>
 			<td class="table_header-2 harga"><?=$text_renderer->to_rupiah($finance_kas_total->ending_balance)?></td>
 		</tr>
 	</table>
@@ -98,6 +98,7 @@
 	<table>
 		<tr>
 			<td class="table_header" rowspan=2>Keterangan</td>
+			<td class="table_header" rowspan=2>Transaksi Terkait</td>
 			<td class="table_header" rowspan=2>Tanggal</td>
 			<?php
 			foreach ($finance_kas_tunais as $finance_kas_tunai)
@@ -136,6 +137,7 @@
 			?>
 			<tr>
 				<td class="first_row keterangan"><?=$finance_transaksi_kas->keterangan?></td>
+				<td class="first_row keterangan"><?=$finance_transaksi_kas->transaksi_terkait?><?=$finance_transaksi_kas->id_transaksi_terkait?" #".$finance_transaksi_kas->id_transaksi_terkait:""?></td>
 				<td class="first_row tanggal"><?=date_format(date_create($finance_transaksi_kas->waktu), "d M Y")?></td>
 				<?php
 				foreach ($finance_kas_tunais as $finance_kas_tunai)

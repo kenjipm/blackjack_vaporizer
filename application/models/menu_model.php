@@ -13,7 +13,26 @@ class Menu_Model extends CI_Model {
 		";
 		$query = $this->db->query($query);
 		$result = $query->result();
-        return $result[0];
+        return isset($result[0])?$result[0]:"";
+	}
+    
+	function get_all(){
+		$query = "
+			SELECT * FROM $this->tabel
+			WHERE hidden = 0;
+		";
+		$query = $this->db->query($query);
+		return $query->result();
+	}
+	
+	function get_all_include_hidden_and_order(){
+		$query = "
+			SELECT * FROM $this->tabel
+			WHERE hidden = 0
+			ORDER BY hidden, tipe_3, tipe_2, tipe, nama ASC;
+		";
+		$query = $this->db->query($query);
+		return $query->result();
 	}
     
 	function get_from_nama($nama){
@@ -66,7 +85,7 @@ class Menu_Model extends CI_Model {
 			SET $val
 			WHERE id = $id
 		";
-		$this->db->query($query);
+		return $this->db->query($query);
 	}
     
 	function get_all_nama_stok($search_hidden=false){
@@ -89,8 +108,9 @@ class Menu_Model extends CI_Model {
 		";
 		if (!$search_hidden)
 		{
-			$query .= "WHERE hidden = 0";
+			$query .= "WHERE hidden = 0 ";
 		}
+		$query .= " ORDER BY nama";
 		$query = $this->db->query($query);
 		$result = $query->result();
         return $result;
@@ -103,7 +123,7 @@ class Menu_Model extends CI_Model {
 		";
 		$query = $this->db->query($query);
 		$result = $query->result();
-        return $result[0]->id;
+        return isset($result[0])?$result[0]->id:"";
 	}
     
 	function is_nama_exist($nama){

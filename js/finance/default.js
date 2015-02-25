@@ -1,4 +1,9 @@
 // Fungsi - fungsi load view biasa
+function load_tutup_buku_view()
+{
+	$("#iframe_finance_view").attr('src', 'finance/tutup_buku_view');
+}
+
 function load_kas_overview_view()
 {
     $("#iframe_finance_view").attr('src', 'finance/kas_overview_view');
@@ -34,6 +39,16 @@ function load_alokasi_overview_view()
     $("#iframe_finance_view").attr('src', 'finance/alokasi_overview_view');
 }
 
+function load_alokasi_modal_view()
+{
+    $("#iframe_finance_view").attr('src', 'finance/alokasi_modal_view');
+}
+
+function load_alokasi_bonus_view()
+{
+    $("#iframe_finance_view").attr('src', 'finance/alokasi_bonus_view');
+}
+
 function load_alokasi_migrasi_view()
 {
     $("#iframe_finance_view").attr('src', 'finance/alokasi_migrasi_view');
@@ -42,6 +57,16 @@ function load_alokasi_migrasi_view()
 function load_transaksi_overview_view()
 {
     $("#iframe_finance_view").attr('src', 'finance/transaksi_overview_view');
+}
+
+function load_omzet_view()
+{
+    $("#iframe_finance_view").attr('src', 'finance/omzet_view');
+}
+
+function load_omzet_view_month(month, year)
+{
+    $("#iframe_finance_view").attr('src', 'finance/omzet_view/'+month+'/'+year);
 }
 
 // Fungsi - fungsi load view dengan parameter get

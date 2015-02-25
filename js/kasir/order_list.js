@@ -57,7 +57,7 @@ function delete_order(order_id, nama_pembeli, paid)
     {
         $.ajax({
             type: 'POST',
-            url: "kasir_delete_order/"+order_id,
+            url: "kasir_delete_order/"+order_id+"/"+nama_pembeli,
             data: "",
             success: function(result){
                 parent.reload_order_list();

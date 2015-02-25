@@ -1,3 +1,21 @@
+function cancel_belanja(id_belanja)
+{
+	if (confirm("Cancel belanja ini?"))
+	{
+		$.ajax({
+			type: 'POST',
+			url: "cancel_belanja/",
+			data: 
+			{
+				id_belanja : id_belanja
+			},
+			success: function(result){
+				location.reload();
+			}
+		});
+	}
+}
+
 function next_session()
 {
     $.ajax({

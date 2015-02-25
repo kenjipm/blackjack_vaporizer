@@ -27,13 +27,14 @@
 		<tr>
 			<td class="menu_label">Pengaturan :</td>
 			<td>
+				<input type="button" value="Review Stok" onclick="load_review_stok_view();"/>
 				<input type="button" value="Penyesuaian Stok" onclick="load_penyesuaian_stok_view();"/>
 			</td>
 		</tr>
 	</table>
 	<hr size=1/>
 	
-    <iframe id="iframe_stok_view" name="stok_view" src="stok/restock_view"></iframe>
+    <iframe id="iframe_stok_view" name="stok_view" src=""></iframe>
 	
 	<br/>
 </div>

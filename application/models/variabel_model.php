@@ -196,6 +196,24 @@ class Variabel_Model extends CI_Model {
 		$this->db->query($query);
 	}
 		
+	public function get_tipe_kas_penjualan_default(){
+		$query = "
+			SELECT tipe_kas_penjualan_default FROM $this->tabel
+		";
+		$query = $this->db->query($query);
+        $result = $query->result();
+        
+		return (count($result) > 0)?$result[0]->tipe_kas_penjualan_default:false;
+	}
+		
+	public function set_tipe_kas_penjualan_default($value){
+		$query = "
+			UPDATE $this->tabel 
+			SET tipe_kas_penjualan_default = '$value'
+		";
+		$this->db->query($query);
+	}
+		
 	public function get_id_rekening_penjualan_default(){
 		$query = "
 			SELECT id_rekening_penjualan_default FROM $this->tabel
@@ -250,20 +268,128 @@ class Variabel_Model extends CI_Model {
 		$this->db->query($query);
 	}
 		
-	public function get_tipe_kas_penjualan_default(){
+	public function get_id_tunai_penjualan_default(){
 		$query = "
-			SELECT tipe_kas_penjualan_default FROM $this->tabel
+			SELECT id_tunai_penjualan_default FROM $this->tabel
 		";
 		$query = $this->db->query($query);
         $result = $query->result();
         
-		return (count($result) > 0)?$result[0]->tipe_kas_penjualan_default:false;
+		return (count($result) > 0)?$result[0]->id_tunai_penjualan_default:false;
 	}
 		
-	public function set_tipe_kas_penjualan_default($value){
+	public function set_id_tunai_penjualan_default($value){
 		$query = "
 			UPDATE $this->tabel 
-			SET tipe_kas_penjualan_default = '$value'
+			SET id_tunai_penjualan_default = '$value'
+		";
+		$this->db->query($query);
+	}
+		
+	public function get_id_alokasi_modal_default(){
+		$query = "
+			SELECT id_alokasi_modal_default FROM $this->tabel
+		";
+		$query = $this->db->query($query);
+        $result = $query->result();
+        
+		return (count($result) > 0)?$result[0]->id_alokasi_modal_default:false;
+	}
+		
+	public function set_id_alokasi_modal_default($value){
+		$query = "
+			UPDATE $this->tabel 
+			SET id_alokasi_modal_default = '$value'
+		";
+		$this->db->query($query);
+	}
+		
+	public function get_id_alokasi_bonus_default(){
+		$query = "
+			SELECT id_alokasi_bonus_default FROM $this->tabel
+		";
+		$query = $this->db->query($query);
+        $result = $query->result();
+        
+		return (count($result) > 0)?$result[0]->id_alokasi_bonus_default:false;
+	}
+		
+	public function set_id_alokasi_bonus_default($value){
+		$query = "
+			UPDATE $this->tabel 
+			SET id_alokasi_bonus_default = '$value'
+		";
+		$this->db->query($query);
+	}
+		
+	public function get_id_alokasi_incentive_default(){
+		$query = "
+			SELECT id_alokasi_incentive_default FROM $this->tabel
+		";
+		$query = $this->db->query($query);
+        $result = $query->result();
+        
+		return (count($result) > 0)?$result[0]->id_alokasi_incentive_default:false;
+	}
+		
+	public function set_id_alokasi_incentive_default($value){
+		$query = "
+			UPDATE $this->tabel 
+			SET id_alokasi_incentive_default = '$value'
+		";
+		$this->db->query($query);
+	}
+	
+	public function get_poin_kelipatan_rupiah(){
+		$query = "
+			SELECT poin_kelipatan_rupiah FROM $this->tabel
+		";
+		$query = $this->db->query($query);
+        $result = $query->result();
+        
+		return (count($result) > 0)?$result[0]->poin_kelipatan_rupiah:false;
+	}
+		
+	public function set_poin_kelipatan_rupiah($value){
+		$query = "
+			UPDATE $this->tabel 
+			SET poin_kelipatan_rupiah = '$value'
+		";
+		$this->db->query($query);
+	}
+	
+	public function get_poin_ke_rupiah(){
+		$query = "
+			SELECT poin_ke_rupiah FROM $this->tabel
+		";
+		$query = $this->db->query($query);
+        $result = $query->result();
+        
+		return (count($result) > 0)?$result[0]->poin_ke_rupiah:false;
+	}
+		
+	public function set_poin_ke_rupiah($value){
+		$query = "
+			UPDATE $this->tabel 
+			SET poin_ke_rupiah = '$value'
+		";
+		$this->db->query($query);
+	}
+	
+	public function get_poin_multiplier(){
+		$query = "
+			SELECT poin_multiplier FROM $this->tabel
+		";
+		$query = $this->db->query($query);
+        $result = $query->result();
+        
+		return (count($result) > 0)?$result[0]->poin_multiplier:false;
+	}
+		
+	public function set_poin_multiplier($value){
+		$query = "
+			UPDATE $this->tabel 
+			SET poin_multiplier = '$value'
 		";
 		$this->db->query($query);
 	}

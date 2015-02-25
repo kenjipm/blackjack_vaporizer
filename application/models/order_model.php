@@ -140,6 +140,26 @@ class Order_Model extends CI_Model {
 		return $this->db->insert_id();
 	}
 	
+	function update($id, $data){
+		$val = '';
+		$start = true;
+		foreach($data as $key => $value){
+			if($start){
+				$val .="$key = '$value'";
+				$start = false;
+			}else{
+				$val .=", $key = '$value'";
+			}
+		}
+		
+		$query = "
+			UPDATE $this->tabel 
+			SET $val
+			WHERE id = $id
+		";
+		$this->db->query($query);
+	}
+		
 	function delete($id){
 		$query = "
 			DELETE 
@@ -154,6 +174,16 @@ class Order_Model extends CI_Model {
 		$query = "
 			UPDATE $this->tabel
 			SET paid = ".$value."
+            WHERE id = ".$id."
+		";
+		$this->db->query($query);
+    }
+    
+    function set_ongkir($id, $value)
+    {
+		$query = "
+			UPDATE $this->tabel
+			SET ongkir = ".$value."
             WHERE id = ".$id."
 		";
 		$this->db->query($query);

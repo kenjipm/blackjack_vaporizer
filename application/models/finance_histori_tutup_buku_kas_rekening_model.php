@@ -82,7 +82,7 @@ class Finance_Histori_Tutup_Buku_Kas_Rekening_Model extends CI_Model {
 		$query = "
 			SELECT * FROM $this->tabel
 			WHERE id_kas_rekening = ".$id_kas_rekening."
-			AND session_tutup_buku_no = ".$session_no."
+			AND session_tutup_buku_no = ".$session_tutup_buku_no."
 		";
 		$query = $this->db->query($query);
 		$result = $query->result();

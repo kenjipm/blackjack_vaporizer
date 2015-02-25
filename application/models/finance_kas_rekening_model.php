@@ -26,6 +26,28 @@ class Finance_Kas_Rekening_Model extends CI_Model {
         return $result;
 	}
     
+	function get_all_for_restock(){
+		$result = array();
+		$query = "
+			SELECT * FROM $this->tabel
+			WHERE is_hidden_restock = 0
+		";
+		$query = $this->db->query($query);
+		$result = $query->result();
+        return $result;
+	}
+    
+	function get_all_for_order(){
+		$result = array();
+		$query = "
+			SELECT * FROM $this->tabel
+			WHERE is_hidden_order = 0
+		";
+		$query = $this->db->query($query);
+		$result = $query->result();
+        return $result;
+	}
+    
 	function insert($data){
 		$keys = '';
 		$values = '';
@@ -64,6 +86,24 @@ class Finance_Kas_Rekening_Model extends CI_Model {
 		$query = "
 			UPDATE $this->tabel 
 			SET $val
+			WHERE id = $id
+		";
+		$this->db->query($query);
+	}
+		
+	public function jumlah_add($id, $jumlah){
+		$query = "
+			UPDATE $this->tabel 
+			SET jumlah = jumlah + $jumlah
+			WHERE id = $id
+		";
+		$this->db->query($query);
+	}
+		
+	public function jumlah_subtract($id, $jumlah){
+		$query = "
+			UPDATE $this->tabel 
+			SET jumlah = jumlah - $jumlah
 			WHERE id = $id
 		";
 		$this->db->query($query);

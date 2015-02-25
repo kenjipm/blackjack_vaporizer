@@ -12,7 +12,7 @@
     foreach($orders as $order)
     {
         ?>
-        <span <?=(!$order->done_all && $anchor)?"id='anchor'":""?>></span>
+        <!--span <?=(!$order->done_all && $anchor)?"id='anchor'":""?>></span-->
         <div id="order_id-"<?=$order->id?>>
         <form id="form_order_list-<?=$order->id?>" action="" target="" method="post">
             <input type="hidden" id="jml_menu" name="jml_menu" value="<?=count($order->menu)?>"/>
@@ -20,12 +20,17 @@
             <input type="hidden" id="no_pembeli" name="no_pembeli" value="<?=$order->no_pembeli?>"/>
             <input type="hidden" id="session_no" name="session_no" value="<?=$order->session_no?>"/>
             <input type="hidden" id="customer_id" name="customer_id" value="<?=$order->customer_id?>"/>
+            <input type="hidden" id="cs_id" name="cs_id" value="<?=$order->customer_service_id?>"/>
             <input type="hidden" id="keterangan" name="keterangan" value="<?=$order->keterangan?>"/>
             
 			<span class="order_header">
 				<span class="no_pembeli">#<?=$order->no_pembeli?></span>
 				<span class="customer_nama"><?=$order->customer_nama?></span>
 				<span class="customer_id">(<?=$order->customer_id?>)</span>
+			</span>
+			
+			<span class="keterangan">
+				<span><?=$order->customer_service_id?"CS : ".$order->customer_service_id:""?></span>
 			</span>
 			
 			<span class="keterangan">

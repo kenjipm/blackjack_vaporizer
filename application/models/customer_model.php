@@ -13,7 +13,33 @@ class Customer_Model extends CI_Model {
 		";
 		$query = $this->db->query($query);
 		$result = $query->result();
-        return $result[0];
+        return isset($result[0])?$result[0]:"";
+	}
+    
+	function get_all($search_hidden=false){
+		$query = "
+			SELECT * FROM $this->tabel
+		";
+		if (!$search_hidden)
+		{
+			$query .= "WHERE hidden = 0";
+		}
+		$query = $this->db->query($query);
+		$result = $query->result();
+        return $result;
+	}
+    
+	function get_all_nama($search_hidden=false){
+		$query = "
+			SELECT nama FROM $this->tabel
+		";
+		if (!$search_hidden)
+		{
+			$query .= "WHERE hidden = 0";
+		}
+		$query = $this->db->query($query);
+		$result = $query->result();
+        return $result;
 	}
     
 	function insert($data){
@@ -71,6 +97,36 @@ class Customer_Model extends CI_Model {
 		$query = $this->db->query($query);
 		$result = $query->result();
         return (count($result) > 0);
+	}
+	
+	public function is_reseller($customer_id){
+		$query = "
+			SELECT is_reseller FROM $this->tabel
+			WHERE customer_id = '".$customer_id."'
+			AND hidden = 0
+		";
+		$query = $this->db->query($query);
+        $result = $query->result();
+        
+		return (count($result) > 0)?$result[0]->is_reseller:false;
+	}
+		
+	public function poin_increment($customer_id, $value){
+		$query = "
+			UPDATE $this->tabel 
+			SET poin = poin + $value
+			WHERE customer_id = '".$customer_id."'
+		";
+		$this->db->query($query);
+	}
+	
+	public function poin_decrement($customer_id, $value){
+		$query = "
+			UPDATE $this->tabel 
+			SET poin = poin - $value
+			WHERE customer_id = '".$customer_id."'
+		";
+		$this->db->query($query);
 	}
 }
 ?>

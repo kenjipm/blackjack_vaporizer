@@ -29,10 +29,10 @@
                 <File name="application\controllers\menu.php" />
                 <File name="application\controllers\order.php" />
                 <File name="application\controllers\order_menu.php" />
-                <File name="application\controllers\paket.php" />
                 <File name="application\controllers\penjualan.php" />
                 <File name="application\controllers\stok.php" />
                 <File name="application\controllers\finance.php" />
+                <File name="application\controllers\admin.php" />
             </Folder>
             <Folder name="core">
                 <File name="application\core\index.html" />
@@ -83,6 +83,10 @@
                 <File name="application\models\penyesuaian_stok_model.php" />
                 <File name="application\models\finance_histori_tutup_buku_kas_rekening_model.php" />
                 <File name="application\models\finance_histori_tutup_buku_kas_tunai_model.php" />
+                <File name="application\models\finance_histori_tutup_buku_model.php" />
+                <File name="application\models\paket_model.php" />
+                <File name="application\models\paket_menu_model.php" />
+                <File name="application\models\finance_histori_tutup_buku_alokasi_model.php" />
             </Folder>
             <Folder name="third_party">
                 <File name="application\third_party\index.html" />
@@ -111,6 +115,8 @@
                     <File name="application\views\stok\penjualan_view.php" />
                     <File name="application\views\stok\restock_view.php" />
                     <File name="application\views\stok\penyesuaian_stok_view.php" />
+                    <File name="application\views\stok\histori_restock_view.php" />
+                    <File name="application\views\stok\review_stok_view.php" />
                 </Folder>
                 <File name="application\views\footer_view.php" />
                 <File name="application\views\header_view.php" />
@@ -129,6 +135,16 @@
                     <File name="application\views\finance\kas_rekening_view.php" />
                     <File name="application\views\finance\kas_tunai_view.php" />
                     <File name="application\views\finance\transaksi_overview_view.php" />
+                    <File name="application\views\finance\alokasi_modal_view.php" />
+                    <File name="application\views\finance\tutup_buku_view.php" />
+                    <File name="application\views\finance\alokasi_bonus_view.php" />
+                </Folder>
+                <Folder name="admin">
+                    <File name="application\views\admin\footer_view.php" />
+                    <File name="application\views\admin\header_view.php" />
+                    <File name="application\views\admin\index_view.php" />
+                    <File name="application\views\admin\tambah_paket_view.php" />
+                    <File name="application\views\admin\lihat_paket_view.php" />
                 </Folder>
             </Folder>
             <File name="application\.htaccess" />
@@ -152,6 +168,7 @@
                 <File name="css\stok\penyesuaian_stok.css" />
                 <File name="css\stok\belanja.css" />
                 <File name="css\stok\penjualan.css" />
+                <File name="css\stok\review_stok.css" />
             </Folder>
             <Folder name="ui">
                 <Folder name="images">
@@ -193,6 +210,16 @@
             <Folder name="finance">
                 <File name="css\finance\default.css" />
                 <File name="css\finance\kas_tunai.css" />
+                <File name="css\finance\kas_rekening.css" />
+                <File name="css\finance\alokasi_modal.css" />
+                <File name="css\finance\kas_penyesuaian.css" />
+                <File name="css\finance\kas_migrasi.css" />
+                <File name="css\finance\alokasi_bonus.css" />
+                <File name="css\finance\alokasi_migrasi.css" />
+            </Folder>
+            <Folder name="admin">
+                <File name="css\admin\default.css" />
+                <File name="css\admin\tambah_paket.css" />
             </Folder>
         </Folder>
         <Folder name="img">
@@ -214,6 +241,7 @@
                 <File name="js\stok\restock.js" />
                 <File name="js\stok\histori_restock.js" />
                 <File name="js\stok\penyesuaian_stok.js" />
+                <File name="js\stok\review_stok.js" />
             </Folder>
             <File name="js\jquery-1.9.1.min.js" />
             <File name="js\kasir.js" />
@@ -221,7 +249,16 @@
             <File name="js\stok.js" />
             <Folder name="finance">
                 <File name="js\finance\default.js" />
+                <File name="js\finance\kas_tunai.js" />
+                <File name="js\finance\kas_rekening.js" />
+                <File name="js\finance\kas_penyesuaian.js" />
+                <File name="js\finance\kas_migrasi.js" />
+                <File name="js\finance\alokasi_migrasi.js" />
             </Folder>
+            <Folder name="admin">
+                <File name="js\admin\paket_barang.js" />
+            </Folder>
+            <File name="js\admin.js" />
         </Folder>
         <Folder name="sql">
             <File name="sql\blackjack_vaporizer_db.sql" />
